@@ -18,8 +18,10 @@ const Hero = () => {
     <>
       <AnimatedBackground active={activeProject} projects={featuredProjects} />
       
-      <section className="min-h-screen relative z-10">
-        <VideoCarousel />
+      <section className="h-screen relative">
+        <div className="absolute inset-0 z-0">
+          <VideoCarousel />
+        </div>
       </section>
     </>
   );

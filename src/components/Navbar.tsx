@@ -34,7 +34,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <a 
           href="#" 
-          className="text-xl font-medium hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+          className="text-xl font-medium hover:text-gray-700 dark:hover:text-gray-300 transition-colors text-white dark:text-white"
           onClick={(e) => {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -58,7 +58,7 @@ const Navbar = () => {
           <Button 
             variant="ghost" 
             size="sm" 
-            className="md:hidden" 
+            className="md:hidden text-white dark:text-white" 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -80,7 +80,7 @@ const Navbar = () => {
 
 const NavLink = ({ title, onClick }: { title: string; onClick: () => void }) => (
   <button 
-    className="hover-underline font-medium text-foreground hover:text-foreground/80 transition-colors"
+    className="hover-underline font-medium text-white dark:text-white hover:text-white/80 transition-colors"
     onClick={onClick}
   >
     {title}

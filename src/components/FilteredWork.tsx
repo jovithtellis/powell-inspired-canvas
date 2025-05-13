@@ -1,8 +1,9 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import AnimatedBackground from './AnimatedBackground';
+import { Button } from '@/components/ui/button';
 
 // Extended set of projects with additional metadata
 const allProjects = [
@@ -43,10 +44,23 @@ const categories = [
 const FilteredWork = () => {
   const [filter, setFilter] = useState("All");
   const [activeProject, setActiveProject] = useState<string | null>(null);
+  const [visibleProjects, setVisibleProjects] = useState(10);
 
   const filteredProjects = filter === "All" 
     ? allProjects 
     : allProjects.filter(project => project.category === filter);
+    
+  const displayedProjects = filteredProjects.slice(0, visibleProjects);
+  const hasMoreProjects = filteredProjects.length > visibleProjects;
+  
+  // Reset visible projects count when filter changes
+  useEffect(() => {
+    setVisibleProjects(10);
+  }, [filter]);
+  
+  const loadMore = () => {
+    setVisibleProjects(prev => prev + 10);
+  };
 
   return (
     <>
@@ -58,7 +72,7 @@ const FilteredWork = () => {
       <section id="work" className="section-padding relative z-10">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
-            <h2 className="text-3xl md:text-4xl font-medium mb-6">Selected Work</h2>
+            <h2 className="text-3xl md:text-4xl font-medium mb-6 dark:text-white">Selected Work</h2>
             
             {/* Filter Toggle Group */}
             <div className="overflow-x-auto pb-4">
@@ -72,7 +86,7 @@ const FilteredWork = () => {
                   <ToggleGroupItem 
                     key={category} 
                     value={category}
-                    className="whitespace-nowrap border-b-2 border-transparent data-[state=on]:border-primary rounded-none px-3 py-2"
+                    className="whitespace-nowrap border-b-2 border-transparent data-[state=on]:border-primary rounded-none px-3 py-2 dark:text-white"
                   >
                     {category}
                   </ToggleGroupItem>
@@ -82,7 +96,7 @@ const FilteredWork = () => {
           </div>
           
           <div className="mt-16 relative z-10">
-            {filteredProjects.map((project, index) => (
+            {displayedProjects.map((project, index) => (
               <div 
                 key={project.title}
                 className={`mb-8 py-8 opacity-0 animate-fadeIn border-t border-gray-100 dark:border-gray-800`}
@@ -94,13 +108,13 @@ const FilteredWork = () => {
                   <div className="flex items-start justify-between">
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{project.category}</p>
-                      <h3 className="text-4xl md:text-5xl lg:text-6xl font-medium mb-3 transition-transform group-hover:translate-x-4">
+                      <h3 className="text-4xl md:text-5xl lg:text-6xl font-medium mb-3 transition-transform group-hover:translate-x-4 dark:text-white">
                         {project.title.startsWith("→") ? project.title : `→${project.title}`}
                       </h3>
-                      <p className="text-gray-600 dark:text-gray-400 mb-4 max-w-2xl">{project.description}</p>
+                      <p className="text-gray-600 dark:text-gray-300 mb-4 max-w-2xl">{project.description}</p>
                     </div>
                     <div className="mt-1 hidden md:block">
-                      <span className="inline-flex items-center text-sm font-medium hover-underline group-hover:translate-x-2 transition-transform">
+                      <span className="inline-flex items-center text-sm font-medium hover-underline group-hover:translate-x-2 transition-transform dark:text-white">
                         View <ArrowRight size={16} className="ml-1" />
                       </span>
                     </div>
@@ -108,6 +122,20 @@ const FilteredWork = () => {
                 </a>
               </div>
             ))}
+            
+            {/* View More Button */}
+            {hasMoreProjects && (
+              <div className="flex justify-center mt-16">
+                <Button 
+                  variant="outline"
+                  size="lg"
+                  onClick={loadMore}
+                  className="border-gray-300 dark:border-gray-700 dark:text-white"
+                >
+                  View More
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </section>

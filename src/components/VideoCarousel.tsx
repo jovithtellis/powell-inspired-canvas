@@ -1,9 +1,10 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { useTheme } from './ThemeProvider';
 
 // Placeholder images
 const placeholders = [
@@ -20,48 +21,72 @@ const placeholders = [
 ];
 
 const VideoCarousel: React.FC = () => {
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+  const [randomizedPlaceholders, setRandomizedPlaceholders] = useState<string[]>([]);
+  const { theme } = useTheme();
+  
+  // Randomize images on initial load
+  useEffect(() => {
+    const shuffled = [...placeholders]
+      .sort(() => Math.random() - 0.5);
+    setRandomizedPlaceholders(shuffled);
+  }, []);
+  
+  // Handle mouse wheel scrolling
+  const handleWheel = (e: React.WheelEvent) => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollLeft += e.deltaY;
+    }
+  };
+
+  if (randomizedPlaceholders.length === 0) {
+    return null; // Wait until randomization is complete
+  }
+
   return (
-    <Carousel
-      className="w-full h-full"
-      opts={{
-        align: 'start',
-        loop: true,
-      }}
+    <div 
+      className="w-full h-screen overflow-hidden"
+      ref={carouselRef}
+      onWheel={handleWheel}
     >
-      <CarouselContent>
-        {placeholders.map((src, index) => (
-          <CarouselItem key={index} className="w-full">
-            <div className="p-1 h-screen flex items-center justify-center">
-              <div className="w-full max-w-6xl">
-                <AspectRatio ratio={16/9} className="bg-muted overflow-hidden rounded-md">
-                  {/* This is where video will go in the future */}
-                  <img 
-                    src={src} 
-                    alt={`Placeholder ${index + 1}`} 
-                    className="w-full h-full object-cover"
-                  />
-                  {/* Later replace with: 
-                  <video 
-                    autoPlay 
-                    muted 
-                    loop 
-                    playsInline 
-                    className="w-full h-full object-cover"
-                    src={`/videos/showcase-${index + 1}.mp4`}
-                  /> */}
-                </AspectRatio>
+      <Carousel
+        className="w-full h-full"
+        opts={{
+          align: 'start',
+          loop: true,
+        }}
+      >
+        <CarouselContent className="h-screen">
+          {randomizedPlaceholders.map((src, index) => (
+            <CarouselItem key={index} className="w-full h-screen">
+              <div className="h-screen w-full">
+                {/* This is where video will go in the future */}
+                <img 
+                  src={src} 
+                  alt={`Showcase ${index + 1}`} 
+                  className="w-full h-full object-cover"
+                />
+                {/* Later replace with: 
+                <video 
+                  autoPlay 
+                  muted 
+                  loop 
+                  playsInline 
+                  className="w-full h-full object-cover"
+                  src={`/videos/showcase-${index + 1}.mp4`}
+                /> */}
               </div>
-            </div>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <div className="absolute bottom-4 left-0 right-0">
-        <div className="flex justify-center gap-2">
-          <CarouselPrevious className="static relative transform-none h-10 w-10" />
-          <CarouselNext className="static relative transform-none h-10 w-10" />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <div className="absolute bottom-8 left-0 right-0 z-20">
+          <div className="flex justify-center gap-4">
+            <CarouselPrevious className="relative transform-none h-10 w-10" />
+            <CarouselNext className="relative transform-none h-10 w-10" />
+          </div>
         </div>
-      </div>
-    </Carousel>
+      </Carousel>
+    </div>
   );
 };
 
