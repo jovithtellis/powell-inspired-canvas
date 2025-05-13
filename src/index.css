@@ -85,7 +85,7 @@
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-black to-gray-600;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-black to-gray-600 dark:from-white dark:to-gray-400;
   }
   
   /* Custom link hover animation */

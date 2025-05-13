@@ -1,15 +1,20 @@
 
 import React from 'react';
 
+interface Project {
+  title: string;
+  videoSrc?: string;
+  imageSrc?: string;
+}
+
 interface AnimatedBackgroundProps {
   active: string | null;
-  projects: {
-    title: string;
-    videoSrc: string;
-  }[];
+  projects: Project[];
 }
 
 const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ active, projects }) => {
+  const activeProject = projects.find(p => p.title === active);
+
   return (
     <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
       {projects.map((project) => (
@@ -20,14 +25,25 @@ const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ active, project
           }`}
         >
           {active === project.title && (
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="w-full h-full object-cover"
-              src={project.videoSrc}
-            />
+            <>
+              {project.videoSrc && (
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover"
+                  src={project.videoSrc}
+                />
+              )}
+              {!project.videoSrc && project.imageSrc && (
+                <img
+                  src={project.imageSrc}
+                  alt={project.title}
+                  className="w-full h-full object-cover"
+                />
+              )}
+            </>
           )}
         </div>
       ))}

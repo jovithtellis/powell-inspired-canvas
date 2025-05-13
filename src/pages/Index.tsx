@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
-import Work from '../components/Work';
+import FilteredWork from '../components/FilteredWork';
 import About from '../components/About';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
@@ -13,10 +13,10 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="bg-white">
+    <div className="bg-background text-foreground">
       <Navbar />
       <Hero />
-      <Work />
+      <FilteredWork />
       <About />
       <Contact />
       <Footer />

@@ -1,0 +1,118 @@
+
+import React, { useState } from 'react';
+import { ArrowRight } from 'lucide-react';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import AnimatedBackground from './AnimatedBackground';
+
+// Extended set of projects with additional metadata
+const allProjects = [
+  { title: "Clay", description: "Short film exploring the tactile nature of ceramic arts", category: "Brand videos", videoSrc: "/videos/clay.mp4", imageSrc: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=1000" },
+  { title: "Monument Valley", description: "Commercial spot for the award-winning mobile game", category: "SaaS explainer videos", videoSrc: "/videos/monument-valley.mp4", imageSrc: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1000" },
+  { title: "Moodnotes", description: "Motion graphics for mental health application", category: "Motion Graphics", videoSrc: "/videos/moodnotes.mp4", imageSrc: "https://images.unsplash.com/photo-1574610758891-5b809b6e6e2e?q=80&w=1000" },
+  { title: "Iceland in Winter", description: "Documentary-style travel film featuring Iceland's landscapes", category: "Brand videos", videoSrc: "/videos/iceland.mp4", imageSrc: "https://images.unsplash.com/photo-1476820865390-c52aeebb9891?q=80&w=1000" },
+  { title: "US Road Trip", description: "Travel series highlighting American landscapes", category: "Social Media videos", videoSrc: "/videos/roadtrip.mp4", imageSrc: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=1000" },
+  { title: "From Australia", description: "Brand identity animations for Australian tourism", category: "Brand videos", videoSrc: "/videos/australia.mp4", imageSrc: "https://images.unsplash.com/photo-1493375366763-3ed5e0e6d8ec?q=80&w=1000" },
+  { title: "Copenhagen", description: "City profile and architectural showcase", category: "Brand videos", videoSrc: "/videos/copenhagen.mp4", imageSrc: "https://images.unsplash.com/photo-1552560880-2482cef14240?q=80&w=1000" },
+  { title: "Neon Dreams", description: "Experimental short exploring night cityscapes", category: "Music Videos", videoSrc: "/videos/neon.mp4", imageSrc: "https://images.unsplash.com/photo-1545481571-0a6a423c0ed3?q=80&w=1000" },
+  { title: "Pulse", description: "Music video direction for electronic artist", category: "Music Videos", videoSrc: "/videos/pulse.mp4", imageSrc: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1000" },
+  { title: "Elements", description: "Visual effects showreel featuring the four elements", category: "Motion Graphics", videoSrc: "/videos/elements.mp4", imageSrc: "https://images.unsplash.com/photo-1495312040802-a929cd14a6ab?q=80&w=1000" },
+  { title: "Digital Dreams", description: "VFX showcase for tech conference", category: "Motion Graphics", videoSrc: "/videos/tech.mp4", imageSrc: "https://images.unsplash.com/photo-1593508195009-a7ac0e510a4d?q=80&w=1000" },
+  { title: "Nexus Flow", description: "AI-generated visual narrative", category: "AI videos", videoSrc: "/videos/ai.mp4", imageSrc: "https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=1000" },
+  { title: "Animate Everything", description: "2D animation explainer series", category: "2D animation", videoSrc: "/videos/2d.mp4", imageSrc: "https://images.unsplash.com/photo-1633976976526-a10a19880d9a?q=80&w=1000" },
+  { title: "SAAS Launch", description: "Product demonstration for software startup", category: "SaaS explainer videos", videoSrc: "/videos/saas.mp4", imageSrc: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000" },
+  { title: "Immersive Beat", description: "Visual album for indie band", category: "Music Videos", videoSrc: "/videos/album.mp4", imageSrc: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=1000" },
+  { title: "Illustrated Journey", description: "Hand-drawn animation series", category: "2D animation", videoSrc: "/videos/handdrawn.mp4", imageSrc: "https://images.unsplash.com/photo-1601850494422-3cf14624b0b3?q=80&w=1000" },
+  { title: "Social Shorts", description: "Vertical video campaign for fashion brand", category: "Social Media videos", videoSrc: "/videos/social.mp4", imageSrc: "https://images.unsplash.com/photo-1516251193007-45ef944ab0c6?q=80&w=1000" },
+  { title: "AI Vision", description: "Futuristic AI-generated art film", category: "AI videos", videoSrc: "/videos/aivision.mp4", imageSrc: "https://images.unsplash.com/photo-1679958157996-81deac1a9329?q=80&w=1000" },
+  { title: "Cloud Platform", description: "Tech explainer for cloud computing service", category: "SaaS explainer videos", videoSrc: "/videos/cloud.mp4", imageSrc: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000" },
+  { title: "Motion Theory", description: "Educational motion graphics series", category: "Motion Graphics", videoSrc: "/videos/education.mp4", imageSrc: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000" }
+];
+
+// Filter categories
+const categories = [
+  "All",
+  "Brand videos",
+  "SaaS explainer videos",
+  "Motion Graphics",
+  "2D animation",
+  "AI videos",
+  "Music Videos",
+  "Social Media videos"
+];
+
+const FilteredWork = () => {
+  const [filter, setFilter] = useState("All");
+  const [activeProject, setActiveProject] = useState<string | null>(null);
+
+  const filteredProjects = filter === "All" 
+    ? allProjects 
+    : allProjects.filter(project => project.category === filter);
+
+  return (
+    <>
+      <AnimatedBackground 
+        active={activeProject} 
+        projects={allProjects} 
+      />
+      
+      <section id="work" className="section-padding relative z-10">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-8">
+            <h2 className="text-3xl md:text-4xl font-medium mb-6">Selected Work</h2>
+            
+            {/* Filter Toggle Group */}
+            <div className="overflow-x-auto pb-4">
+              <ToggleGroup 
+                type="single" 
+                value={filter} 
+                onValueChange={(value) => value && setFilter(value)}
+                className="inline-flex flex-nowrap space-x-2"
+              >
+                {categories.map(category => (
+                  <ToggleGroupItem 
+                    key={category} 
+                    value={category}
+                    className="whitespace-nowrap border-b-2 border-transparent data-[state=on]:border-primary rounded-none px-3 py-2"
+                  >
+                    {category}
+                  </ToggleGroupItem>
+                ))}
+              </ToggleGroup>
+            </div>
+          </div>
+          
+          <div className="mt-16 relative z-10">
+            {filteredProjects.map((project, index) => (
+              <div 
+                key={project.title}
+                className={`mb-8 py-8 opacity-0 animate-fadeIn border-t border-gray-100 dark:border-gray-800`}
+                style={{ animationDelay: `${0.1 * index}s` }}
+                onMouseEnter={() => setActiveProject(project.title)}
+                onMouseLeave={() => setActiveProject(null)}
+              >
+                <a href="#" className="block group">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{project.category}</p>
+                      <h3 className="text-4xl md:text-5xl lg:text-6xl font-medium mb-3 transition-transform group-hover:translate-x-4">
+                        {project.title.startsWith("→") ? project.title : `→${project.title}`}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-400 mb-4 max-w-2xl">{project.description}</p>
+                    </div>
+                    <div className="mt-1 hidden md:block">
+                      <span className="inline-flex items-center text-sm font-medium hover-underline group-hover:translate-x-2 transition-transform">
+                        View <ArrowRight size={16} className="ml-1" />
+                      </span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+};
+
+export default FilteredWork;
