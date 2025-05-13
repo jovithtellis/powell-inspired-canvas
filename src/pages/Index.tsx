@@ -9,7 +9,7 @@ import Footer from '../components/Footer';
 
 const Index = () => {
   useEffect(() => {
-    document.title = 'Brian Powell - Designer & Developer';
+    document.title = 'Brian Powell - Creative Director & Filmmaker';
   }, []);
 
   return (

@@ -6,29 +6,47 @@ interface ProjectCardProps {
   title: string;
   description: string;
   category: string;
-  imageSrc: string;
+  imageSrc?: string;
+  videoSrc?: string;
   index: number;
+  onHover?: (title: string) => void;
+  onLeave?: () => void;
 }
 
-const ProjectCard = ({ title, description, category, imageSrc, index }: ProjectCardProps) => {
+const ProjectCard = ({ 
+  title, 
+  description, 
+  category, 
+  imageSrc, 
+  videoSrc,
+  index,
+  onHover,
+  onLeave 
+}: ProjectCardProps) => {
   return (
     <div 
-      className={`mb-32 opacity-0 animate-fadeIn`}
+      className={`mb-12 opacity-0 animate-fadeIn`}
       style={{ animationDelay: `${0.2 * index}s` }}
+      onMouseEnter={() => onHover && onHover(title)}
+      onMouseLeave={() => onLeave && onLeave()}
     >
       <a href="#" className="block group">
-        <div className="overflow-hidden mb-6 image-container">
-          <img 
-            src={imageSrc} 
-            alt={title} 
-            className="w-full h-auto object-cover aspect-[16/9]"
-          />
-        </div>
+        {imageSrc && (
+          <div className="overflow-hidden mb-6 image-container">
+            <img 
+              src={imageSrc} 
+              alt={title} 
+              className="w-full h-auto object-cover aspect-[16/9]"
+            />
+          </div>
+        )}
         
         <div className="flex items-start justify-between">
           <div>
             <p className="text-sm text-gray-500 mb-2">{category}</p>
-            <h3 className="text-2xl font-medium mb-3">{title}</h3>
+            <h3 className="text-3xl font-medium mb-3 transition-transform group-hover:translate-x-2">
+              {title.startsWith("→") ? title : `→${title}`}
+            </h3>
             <p className="text-gray-600 mb-4 max-w-2xl">{description}</p>
           </div>
           <div className="mt-1">
