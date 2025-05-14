@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import AnimatedBackground from './AnimatedBackground';
 import { Button } from '@/components/ui/button';
@@ -46,6 +46,8 @@ const FilteredWork = () => {
   const [activeProject, setActiveProject] = useState<string | null>(null);
   const [visibleProjects, setVisibleProjects] = useState(10);
   const [hoveredProject, setHoveredProject] = useState<string | null>(null);
+  const [indicator, setIndicator] = useState({ left: 0, width: 0 });
+  const toggleRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const loadMoreRef = useRef<HTMLDivElement>(null);
   
   const filteredProjects = filter === "All" 
@@ -58,7 +60,36 @@ const FilteredWork = () => {
   // Reset visible projects count when filter changes
   useEffect(() => {
     setVisibleProjects(10);
+    
+    // Find the active toggle and update indicator position
+    const activeIndex = categories.findIndex(cat => cat === filter);
+    if (activeIndex >= 0 && toggleRefs.current[activeIndex]) {
+      const activeToggle = toggleRefs.current[activeIndex];
+      if (activeToggle) {
+        setIndicator({
+          left: activeToggle.offsetLeft,
+          width: activeToggle.offsetWidth,
+        });
+      }
+    }
   }, [filter]);
+
+  // Initialize toggle refs
+  useEffect(() => {
+    toggleRefs.current = toggleRefs.current.slice(0, categories.length);
+    
+    // Set initial indicator position
+    const activeIndex = categories.findIndex(cat => cat === filter);
+    if (activeIndex >= 0 && toggleRefs.current[activeIndex]) {
+      const activeToggle = toggleRefs.current[activeIndex];
+      if (activeToggle) {
+        setIndicator({
+          left: activeToggle.offsetLeft,
+          width: activeToggle.offsetWidth,
+        });
+      }
+    }
+  }, []);
   
   const loadMore = () => {
     setVisibleProjects(prev => prev + 10);
@@ -109,18 +140,39 @@ const FilteredWork = () => {
             <h2 className="text-3xl md:text-4xl font-medium mb-6 text-white slide-in-left opacity-0">Selected Work</h2>
             
             {/* Filter Toggle Group */}
-            <div className="overflow-x-auto pb-4 slide-in-right opacity-0" style={{ animationDelay: '0.2s' }}>
+            <div className="overflow-x-auto pb-4 slide-in-right opacity-0 relative" style={{ animationDelay: '0.2s' }}>
+              {/* Animated selection indicator */}
+              <div 
+                className="absolute bottom-0 h-0.5 bg-primary transition-all duration-300 ease-out"
+                style={{ 
+                  left: `${indicator.left}px`, 
+                  width: `${indicator.width}px` 
+                }}
+              />
+              
               <ToggleGroup 
                 type="single" 
                 value={filter} 
                 onValueChange={(value) => value && setFilter(value)}
                 className="inline-flex flex-nowrap space-x-2"
               >
-                {categories.map(category => (
+                {categories.map((category, idx) => (
                   <ToggleGroupItem 
                     key={category} 
                     value={category}
                     className="whitespace-nowrap border-b-2 border-transparent data-[state=on]:border-primary rounded-none px-3 py-2 text-white"
+                    ref={el => toggleRefs.current[idx] = el}
+                    onFocus={() => {
+                      if (toggleRefs.current[idx]) {
+                        const toggle = toggleRefs.current[idx];
+                        if (toggle) {
+                          setIndicator({
+                            left: toggle.offsetLeft,
+                            width: toggle.offsetWidth,
+                          });
+                        }
+                      }
+                    }}
                   >
                     {category}
                   </ToggleGroupItem>

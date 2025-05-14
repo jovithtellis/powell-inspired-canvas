@@ -74,10 +74,12 @@
 
   html {
     @apply scroll-smooth;
+    background-color: black;
   }
   
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    background-color: black;
     /* Hide default cursor when using custom cursor */
     cursor: none;
   }
