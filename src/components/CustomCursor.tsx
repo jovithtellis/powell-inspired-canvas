@@ -1,13 +1,32 @@
 
 import React, { useState, useEffect } from 'react';
 
+interface CursorPosition {
+  x: number;
+  y: number;
+  timestamp: number;
+}
+
 const CustomCursor = () => {
-  const [position, setPosition] = useState({ x: -100, y: -100 });
+  const [position, setPosition] = useState<CursorPosition>({ x: -100, y: -100, timestamp: Date.now() });
+  const [trail, setTrail] = useState<CursorPosition[]>([]);
   const [isPointer, setIsPointer] = useState(false);
+  const trailLength = 5; // Number of echo elements
 
   useEffect(() => {
     const updatePosition = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
+      const newPosition = { 
+        x: e.clientX, 
+        y: e.clientY,
+        timestamp: Date.now()
+      };
+      setPosition(newPosition);
+      
+      // Update trail with new position
+      setTrail(prevTrail => {
+        const newTrail = [newPosition, ...prevTrail.slice(0, trailLength - 1)];
+        return newTrail;
+      });
     };
 
     const updateCursorType = () => {
@@ -36,7 +55,7 @@ const CustomCursor = () => {
 
   return (
     <>
-      {/* Outer cursor (blend difference) */}
+      {/* Main cursor (blend difference) */}
       <div 
         className="fixed pointer-events-none z-50 mix-blend-difference"
         style={{
@@ -49,6 +68,27 @@ const CustomCursor = () => {
           isPointer ? 'w-12 h-12 opacity-70' : 'w-8 h-8 opacity-50'
         }`}></div>
       </div>
+      
+      {/* Echo trail */}
+      {trail.map((pos, index) => (
+        <div 
+          key={pos.timestamp}
+          className="fixed pointer-events-none z-50 mix-blend-difference"
+          style={{
+            left: `${pos.x}px`,
+            top: `${pos.y}px`,
+            transform: 'translate(-50%, -50%)',
+            opacity: (1 - index * 0.15), // Decreasing opacity for trail
+          }}
+        >
+          <div className={`rounded-full bg-white ${
+            isPointer ? 'w-10 h-10' : 'w-6 h-6'
+          }`} style={{ 
+            opacity: (0.4 - index * 0.07),
+            transform: `scale(${1 - index * 0.15})`,
+          }}></div>
+        </div>
+      ))}
       
       {/* Inner cursor with motion blur */}
       <div 

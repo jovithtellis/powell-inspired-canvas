@@ -70,7 +70,14 @@ const FilteredWork = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fadeIn');
+            if (entry.target.classList.contains('fade-in-element')) {
+              entry.target.classList.add('animate-fadeIn');
+            } else if (entry.target.classList.contains('slide-in-left') || 
+                       entry.target.classList.contains('slide-in-right') ||
+                       entry.target.classList.contains('slide-in-up') ||
+                       entry.target.classList.contains('slide-in-down')) {
+              entry.target.classList.add('animate-slideIn');
+            }
             observer.unobserve(entry.target);
           }
         });
@@ -78,12 +85,12 @@ const FilteredWork = () => {
       { threshold: 0.1 }
     );
 
-    document.querySelectorAll('.fade-in-element').forEach((el) => {
+    document.querySelectorAll('.fade-in-element, .slide-in-left, .slide-in-right, .slide-in-up, .slide-in-down').forEach((el) => {
       observer.observe(el);
     });
 
     return () => {
-      document.querySelectorAll('.fade-in-element').forEach((el) => {
+      document.querySelectorAll('.fade-in-element, .slide-in-left, .slide-in-right, .slide-in-up, .slide-in-down').forEach((el) => {
         observer.unobserve(el);
       });
     };
@@ -99,10 +106,10 @@ const FilteredWork = () => {
       <section id="work" className="section-padding relative z-10">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
-            <h2 className="text-3xl md:text-4xl font-medium mb-6 dark:text-white fade-in-element opacity-0">Selected Work</h2>
+            <h2 className="text-3xl md:text-4xl font-medium mb-6 text-white slide-in-left opacity-0">Selected Work</h2>
             
             {/* Filter Toggle Group */}
-            <div className="overflow-x-auto pb-4 fade-in-element opacity-0" style={{ animationDelay: '0.2s' }}>
+            <div className="overflow-x-auto pb-4 slide-in-right opacity-0" style={{ animationDelay: '0.2s' }}>
               <ToggleGroup 
                 type="single" 
                 value={filter} 
@@ -113,7 +120,7 @@ const FilteredWork = () => {
                   <ToggleGroupItem 
                     key={category} 
                     value={category}
-                    className="whitespace-nowrap border-b-2 border-transparent data-[state=on]:border-primary rounded-none px-3 py-2 dark:text-white"
+                    className="whitespace-nowrap border-b-2 border-transparent data-[state=on]:border-primary rounded-none px-3 py-2 text-white"
                   >
                     {category}
                   </ToggleGroupItem>
@@ -126,7 +133,7 @@ const FilteredWork = () => {
             {displayedProjects.map((project, index) => (
               <div 
                 key={project.title}
-                className="mb-8 py-8 opacity-0 fade-in-element border-t border-gray-100 dark:border-gray-800 relative group"
+                className="mb-8 py-8 opacity-0 slide-in-left border-t border-gray-800 relative group"
                 style={{ animationDelay: `${0.1 * index}s` }}
                 onMouseEnter={() => {
                   setActiveProject(project.title);
@@ -138,32 +145,19 @@ const FilteredWork = () => {
                 }}
               >
                 <a href="#" className="block">
-                  <div className="flex items-start justify-between">
-                    <div className="z-10 relative">
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{project.category}</p>
-                      <h3 className="text-4xl md:text-5xl lg:text-6xl font-medium mb-3 transition-transform group-hover:translate-x-4 dark:text-white">
+                  <div className="flex items-start justify-between relative z-10">
+                    <div>
+                      <p className="text-sm text-gray-400 mb-2">{project.category}</p>
+                      <h3 className="text-4xl md:text-5xl lg:text-6xl font-medium mb-3 transition-transform group-hover:translate-x-4 text-white">
                         {project.title.startsWith("→") ? project.title : `→${project.title}`}
                       </h3>
-                      <p className="text-gray-600 dark:text-gray-300 mb-4 max-w-2xl">{project.description}</p>
+                      <p className="text-gray-300 mb-4 max-w-2xl">{project.description}</p>
                     </div>
                     <div className="mt-1 hidden md:block">
-                      <span className="inline-flex items-center text-sm font-medium hover-underline group-hover:translate-x-2 transition-transform dark:text-white">
+                      <span className="inline-flex items-center text-sm font-medium hover-underline group-hover:translate-x-2 transition-transform text-white">
                         View <ArrowRight size={16} className="ml-1" />
                       </span>
                     </div>
-                  </div>
-                  
-                  {/* Project image hover effect */}
-                  <div 
-                    className={`absolute top-0 right-0 w-1/3 h-full bg-cover bg-center opacity-0 transition-opacity duration-500 rounded-lg overflow-hidden pointer-events-none ${
-                      hoveredProject === project.title ? 'opacity-80' : ''
-                    }`}
-                    style={{ 
-                      backgroundImage: `url(${project.imageSrc})`, 
-                      zIndex: 5,
-                    }}
-                  >
-                    {/* This is where video would play when available */}
                   </div>
                 </a>
               </div>
@@ -171,12 +165,12 @@ const FilteredWork = () => {
             
             {/* View More Button */}
             {hasMoreProjects && (
-              <div className="flex justify-center mt-16 fade-in-element opacity-0" ref={loadMoreRef} style={{ animationDelay: '0.5s' }}>
+              <div className="flex justify-center mt-16 slide-in-up opacity-0" ref={loadMoreRef} style={{ animationDelay: '0.5s' }}>
                 <Button 
                   variant="outline"
                   size="lg"
                   onClick={loadMore}
-                  className="border-gray-300 dark:border-gray-700 dark:text-white group overflow-hidden relative"
+                  className="border-gray-700 text-white group overflow-hidden relative"
                 >
                   <span className="relative z-10">View More</span>
                   <div className="absolute inset-0 opacity-20 group-hover:opacity-30 overflow-hidden">

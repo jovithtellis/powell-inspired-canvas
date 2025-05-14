@@ -1,7 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { useTheme } from './ThemeProvider';
@@ -71,15 +70,6 @@ const VideoCarousel: React.FC = () => {
                   alt={`Showcase ${index + 1}`} 
                   className="w-full h-full object-cover transition-transform duration-10000 hover:scale-105"
                 />
-                {/* Later replace with: 
-                <video 
-                  autoPlay 
-                  muted 
-                  loop 
-                  playsInline 
-                  className="w-full h-full object-cover"
-                  src={`/videos/showcase-${index + 1}.mp4`}
-                /> */}
               </div>
             </CarouselItem>
           ))}

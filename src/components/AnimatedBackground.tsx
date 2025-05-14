@@ -33,7 +33,7 @@ const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ active, project
         <div
           key={project.title}
           className={`absolute inset-0 w-full h-full transition-opacity duration-700 ${
-            active === project.title ? 'opacity-30 dark:opacity-20' : 'opacity-0'
+            active === project.title ? 'opacity-80 dark:opacity-60' : 'opacity-0'
           }`}
         >
           {active === project.title && (

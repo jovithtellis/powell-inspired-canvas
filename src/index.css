@@ -5,39 +5,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 10%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
-
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 9%;
-
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
-
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 9%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 0 0% 10%;
-
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 0 0% 5%;
+    --background: 0 0% 0%;
     --foreground: 0 0% 95%;
 
     --card: 0 0% 5%;
@@ -48,6 +16,38 @@
 
     --primary: 0 0% 95%;
     --primary-foreground: 0 0% 5%;
+
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 95%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 95%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 95%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 0 0% 80%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 95%;
+
+    --card: 0 0% 0%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 0 0% 0%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 0 0% 95%;
+    --primary-foreground: 0 0% 0%;
 
     --secondary: 0 0% 15%;
     --secondary-foreground: 0 0% 95%;
@@ -91,7 +91,7 @@
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-black to-gray-600 dark:from-white dark:to-gray-400;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400;
   }
   
   /* Custom link hover animation */
@@ -119,13 +119,46 @@
   /* For sections that fade in */
   .fade-in-element {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transform: translateY(40px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
   }
 
   .fade-in-element.animate-fadeIn {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  /* Slide in animations */
+  .slide-in-left {
+    opacity: 0;
+    transform: translateX(-100px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+  }
+
+  .slide-in-right {
+    opacity: 0;
+    transform: translateX(100px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+  }
+
+  .slide-in-up {
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+  }
+
+  .slide-in-down {
+    opacity: 0;
+    transform: translateY(-100px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+  }
+
+  .slide-in-left.animate-slideIn,
+  .slide-in-right.animate-slideIn,
+  .slide-in-up.animate-slideIn,
+  .slide-in-down.animate-slideIn {
+    opacity: 1;
+    transform: translate(0, 0);
   }
 }
 
@@ -134,4 +167,3 @@
   mix-blend-mode: difference;
   pointer-events: none;
 }
-
