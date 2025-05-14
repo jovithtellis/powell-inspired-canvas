@@ -24,12 +24,16 @@ const VideoCarousel: React.FC = () => {
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const [randomizedPlaceholders, setRandomizedPlaceholders] = useState<string[]>([]);
   const { theme } = useTheme();
+  const [isLoaded, setIsLoaded] = useState(false);
   
   // Randomize images on initial load
   useEffect(() => {
     const shuffled = [...placeholders]
       .sort(() => Math.random() - 0.5);
     setRandomizedPlaceholders(shuffled);
+    
+    // Set loaded after a short delay to trigger fade-in animation
+    setTimeout(() => setIsLoaded(true), 300);
   }, []);
   
   // Handle mouse wheel scrolling
@@ -45,7 +49,8 @@ const VideoCarousel: React.FC = () => {
 
   return (
     <div 
-      className="w-full h-screen overflow-hidden"
+      className="w-full h-screen overflow-hidden transition-opacity duration-1000"
+      style={{ opacity: isLoaded ? 1 : 0 }}
       ref={carouselRef}
       onWheel={handleWheel}
     >
@@ -59,12 +64,12 @@ const VideoCarousel: React.FC = () => {
         <CarouselContent className="h-screen">
           {randomizedPlaceholders.map((src, index) => (
             <CarouselItem key={index} className="w-full h-screen">
-              <div className="h-screen w-full">
+              <div className="h-screen w-full overflow-hidden">
                 {/* This is where video will go in the future */}
                 <img 
                   src={src} 
                   alt={`Showcase ${index + 1}`} 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-10000 hover:scale-105"
                 />
                 {/* Later replace with: 
                 <video 
@@ -81,8 +86,8 @@ const VideoCarousel: React.FC = () => {
         </CarouselContent>
         <div className="absolute bottom-8 left-0 right-0 z-20">
           <div className="flex justify-center gap-4">
-            <CarouselPrevious className="relative transform-none h-10 w-10" />
-            <CarouselNext className="relative transform-none h-10 w-10" />
+            <CarouselPrevious className="relative transform-none h-10 w-10 bg-white/20 backdrop-blur-sm border-white/40 hover:bg-white/30 transition-all duration-300" />
+            <CarouselNext className="relative transform-none h-10 w-10 bg-white/20 backdrop-blur-sm border-white/40 hover:bg-white/30 transition-all duration-300" />
           </div>
         </div>
       </Carousel>

@@ -8,7 +8,7 @@ const About = () => {
         {/* About and Artist Image */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-20">
           {/* About Text */}
-          <div>
+          <div className="md:order-1 animate-fadeIn opacity-0" style={{ animationDelay: '0.1s' }}>
             <h2 className="text-3xl md:text-4xl font-medium mb-6 dark:text-white">About</h2>
             <div className="prose max-w-none dark:prose-invert">
               <p className="text-lg mb-4 dark:text-gray-300">
@@ -27,11 +27,11 @@ const About = () => {
           </div>
           
           {/* Artist Image */}
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center md:order-2 animate-fadeIn opacity-0" style={{ animationDelay: '0.3s' }}>
             <div className="aspect-[3/4] w-full max-w-md overflow-hidden rounded-lg">
               <img 
                 src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000" 
-                alt="Brian Powell - Creative Director"
+                alt="Jovith Tellis - Creative Director"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -41,62 +41,40 @@ const About = () => {
         {/* Skills and Experience Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           {/* Skills section */}
-          <div>
-            <h3 className="text-xl font-medium mb-8 dark:text-white">Skills & Tools</h3>
+          <div className="animate-fadeIn opacity-0" style={{ animationDelay: '0.5s' }}>
+            <h3 className="text-xl font-medium mb-8 dark:text-white">Skills</h3>
             
-            <div className="grid grid-cols-2 gap-x-12 gap-y-8">
-              <div>
-                <h4 className="text-sm text-gray-500 dark:text-gray-400 mb-3">Design</h4>
-                <ul className="space-y-2 dark:text-gray-300">
-                  <li>UI/UX Design</li>
-                  <li>Visual Design</li>
-                  <li>Brand Identity</li>
-                  <li>Prototyping</li>
-                  <li>User Research</li>
-                </ul>
-              </div>
-              
-              <div>
-                <h4 className="text-sm text-gray-500 dark:text-gray-400 mb-3">Development</h4>
-                <ul className="space-y-2 dark:text-gray-300">
-                  <li>HTML & CSS</li>
-                  <li>JavaScript</li>
-                  <li>React</li>
-                  <li>TypeScript</li>
-                  <li>Frontend Architecture</li>
-                </ul>
-              </div>
-              
-              <div>
-                <h4 className="text-sm text-gray-500 dark:text-gray-400 mb-3">Tools</h4>
-                <ul className="space-y-2 dark:text-gray-300">
-                  <li>Figma</li>
-                  <li>Adobe Creative Suite</li>
-                  <li>Webflow</li>
-                  <li>Framer</li>
-                  <li>VS Code</li>
-                </ul>
-              </div>
-              
-              <div>
-                <h4 className="text-sm text-gray-500 dark:text-gray-400 mb-3">Other</h4>
-                <ul className="space-y-2 dark:text-gray-300">
-                  <li>Project Management</li>
-                  <li>Content Strategy</li>
-                  <li>Responsive Design</li>
-                  <li>Design Systems</li>
-                  <li>Accessibility</li>
-                </ul>
-              </div>
-            </div>
+            <ul className="space-y-4 dark:text-gray-300">
+              <li className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 transform hover:translate-x-1">
+                <span className="font-medium">UI/UX Design</span>
+              </li>
+              <li className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 transform hover:translate-x-1">
+                <span className="font-medium">Visual Design</span>
+              </li>
+              <li className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 transform hover:translate-x-1">
+                <span className="font-medium">Brand Identity</span>
+              </li>
+              <li className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 transform hover:translate-x-1">
+                <span className="font-medium">Frontend Development</span>
+              </li>
+              <li className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 transform hover:translate-x-1">
+                <span className="font-medium">Motion Design</span>
+              </li>
+              <li className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 transform hover:translate-x-1">
+                <span className="font-medium">Prototyping</span>
+              </li>
+              <li className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 transform hover:translate-x-1">
+                <span className="font-medium">Content Strategy</span>
+              </li>
+            </ul>
           </div>
           
-          {/* Experience section - moved from above */}
-          <div>
+          {/* Experience section */}
+          <div className="animate-fadeIn opacity-0" style={{ animationDelay: '0.7s' }}>
             <h3 className="text-xl font-medium mb-8 dark:text-white">Experience</h3>
             
             <div className="space-y-12">
-              <div>
+              <div className="transform transition-all duration-300 hover:translate-x-2">
                 <div className="flex justify-between items-center mb-2">
                   <h4 className="text-lg font-medium dark:text-white">Design Lead</h4>
                   <span className="text-sm text-gray-500 dark:text-gray-400">2020 — Present</span>
@@ -105,7 +83,7 @@ const About = () => {
                 <p className="mt-2 dark:text-gray-300">Leading digital product design and creative direction for clients across various industries.</p>
               </div>
               
-              <div>
+              <div className="transform transition-all duration-300 hover:translate-x-2">
                 <div className="flex justify-between items-center mb-2">
                   <h4 className="text-lg font-medium dark:text-white">Senior Designer</h4>
                   <span className="text-sm text-gray-500 dark:text-gray-400">2017 — 2020</span>
@@ -114,7 +92,7 @@ const About = () => {
                 <p className="mt-2 dark:text-gray-300">Developed brand systems and digital products for technology companies and startups.</p>
               </div>
               
-              <div>
+              <div className="transform transition-all duration-300 hover:translate-x-2">
                 <div className="flex justify-between items-center mb-2">
                   <h4 className="text-lg font-medium dark:text-white">UI/UX Designer</h4>
                   <span className="text-sm text-gray-500 dark:text-gray-400">2015 — 2017</span>

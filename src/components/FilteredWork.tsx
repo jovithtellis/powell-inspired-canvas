@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import AnimatedBackground from './AnimatedBackground';
@@ -45,7 +45,9 @@ const FilteredWork = () => {
   const [filter, setFilter] = useState("All");
   const [activeProject, setActiveProject] = useState<string | null>(null);
   const [visibleProjects, setVisibleProjects] = useState(10);
-
+  const [hoveredProject, setHoveredProject] = useState<string | null>(null);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+  
   const filteredProjects = filter === "All" 
     ? allProjects 
     : allProjects.filter(project => project.category === filter);
@@ -62,6 +64,31 @@ const FilteredWork = () => {
     setVisibleProjects(prev => prev + 10);
   };
 
+  // Animation observer for fade-in items
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-fadeIn');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    document.querySelectorAll('.fade-in-element').forEach((el) => {
+      observer.observe(el);
+    });
+
+    return () => {
+      document.querySelectorAll('.fade-in-element').forEach((el) => {
+        observer.unobserve(el);
+      });
+    };
+  }, [displayedProjects]);
+
   return (
     <>
       <AnimatedBackground 
@@ -72,10 +99,10 @@ const FilteredWork = () => {
       <section id="work" className="section-padding relative z-10">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
-            <h2 className="text-3xl md:text-4xl font-medium mb-6 dark:text-white">Selected Work</h2>
+            <h2 className="text-3xl md:text-4xl font-medium mb-6 dark:text-white fade-in-element opacity-0">Selected Work</h2>
             
             {/* Filter Toggle Group */}
-            <div className="overflow-x-auto pb-4">
+            <div className="overflow-x-auto pb-4 fade-in-element opacity-0" style={{ animationDelay: '0.2s' }}>
               <ToggleGroup 
                 type="single" 
                 value={filter} 
@@ -99,14 +126,20 @@ const FilteredWork = () => {
             {displayedProjects.map((project, index) => (
               <div 
                 key={project.title}
-                className={`mb-8 py-8 opacity-0 animate-fadeIn border-t border-gray-100 dark:border-gray-800`}
+                className="mb-8 py-8 opacity-0 fade-in-element border-t border-gray-100 dark:border-gray-800 relative group"
                 style={{ animationDelay: `${0.1 * index}s` }}
-                onMouseEnter={() => setActiveProject(project.title)}
-                onMouseLeave={() => setActiveProject(null)}
+                onMouseEnter={() => {
+                  setActiveProject(project.title);
+                  setHoveredProject(project.title);
+                }}
+                onMouseLeave={() => {
+                  setActiveProject(null);
+                  setHoveredProject(null);
+                }}
               >
-                <a href="#" className="block group">
+                <a href="#" className="block">
                   <div className="flex items-start justify-between">
-                    <div>
+                    <div className="z-10 relative">
                       <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{project.category}</p>
                       <h3 className="text-4xl md:text-5xl lg:text-6xl font-medium mb-3 transition-transform group-hover:translate-x-4 dark:text-white">
                         {project.title.startsWith("→") ? project.title : `→${project.title}`}
@@ -119,20 +152,38 @@ const FilteredWork = () => {
                       </span>
                     </div>
                   </div>
+                  
+                  {/* Project image hover effect */}
+                  <div 
+                    className={`absolute top-0 right-0 w-1/3 h-full bg-cover bg-center opacity-0 transition-opacity duration-500 rounded-lg overflow-hidden pointer-events-none ${
+                      hoveredProject === project.title ? 'opacity-80' : ''
+                    }`}
+                    style={{ 
+                      backgroundImage: `url(${project.imageSrc})`, 
+                      zIndex: 5,
+                    }}
+                  >
+                    {/* This is where video would play when available */}
+                  </div>
                 </a>
               </div>
             ))}
             
             {/* View More Button */}
             {hasMoreProjects && (
-              <div className="flex justify-center mt-16">
+              <div className="flex justify-center mt-16 fade-in-element opacity-0" ref={loadMoreRef} style={{ animationDelay: '0.5s' }}>
                 <Button 
                   variant="outline"
                   size="lg"
                   onClick={loadMore}
-                  className="border-gray-300 dark:border-gray-700 dark:text-white"
+                  className="border-gray-300 dark:border-gray-700 dark:text-white group overflow-hidden relative"
                 >
-                  View More
+                  <span className="relative z-10">View More</span>
+                  <div className="absolute inset-0 opacity-20 group-hover:opacity-30 overflow-hidden">
+                    <div className="w-full h-full bg-cover animate-pulse" 
+                      style={{ backgroundImage: 'url(https://i.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.webp)' }}>
+                    </div>
+                  </div>
                 </Button>
               </div>
             )}

@@ -6,14 +6,16 @@ import FilteredWork from '../components/FilteredWork';
 import About from '../components/About';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
+import CustomCursor from '../components/CustomCursor';
 
 const Index = () => {
   useEffect(() => {
-    document.title = 'Brian Powell - Creative Director & Filmmaker';
+    document.title = 'Jovith Tellis - Creative Director & Filmmaker';
   }, []);
 
   return (
     <div className="bg-background text-foreground">
+      <CustomCursor />
       <Navbar />
       <Hero />
       <FilteredWork />
