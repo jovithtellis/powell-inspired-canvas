@@ -1,123 +1,106 @@
 
 import React from 'react';
-import { 
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { File, FileVideo, Upload, FolderPlus } from 'lucide-react';
 
 const VideoAssetGuide = () => {
   return (
-    <div className="bg-black text-white p-6 rounded-xl border border-gray-800">
-      <h3 className="text-2xl font-medium mb-4">Adding Your Videos & Assets</h3>
-      
-      <Accordion type="single" collapsible className="w-full">
-        <AccordionItem value="step1">
-          <AccordionTrigger className="text-left">
-            <div className="flex items-center">
-              <FolderPlus className="mr-2" size={18} />
-              <span>Step 1: Prepare Your Files</span>
+    <div className="space-y-4 text-sm">
+      <section>
+        <h3 className="text-lg font-medium mb-2">Step 1: Prepare Your Assets</h3>
+        <div className="space-y-2">
+          <p>For optimal performance, prepare your video files according to these specifications:</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Video Format: MP4 or WebM (MP4 preferred for wide browser compatibility)</li>
+            <li>Codec: H.264 for MP4, VP9 for WebM</li>
+            <li>Resolution: 1920x1080 (Full HD) or 1280x720 (HD)</li>
+            <li>Aspect Ratio: 16:9 (landscape) or 9:16 (vertical for mobile)</li>
+            <li>Bitrate: 2-4 Mbps for HD content</li>
+            <li>File Size: Keep under 10MB per file when possible</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h3 className="text-lg font-medium mb-2">Step 2: Upload Your Files</h3>
+        <div className="space-y-2">
+          <p>Add your videos and images to the project using one of these methods:</p>
+          <ol className="list-decimal pl-5 space-y-2">
+            <li>
+              <strong>Public folder:</strong> Place your video files in the <code>/public</code> directory of your project.
+              <ul className="list-disc pl-5 mt-1">
+                <li>Create a <code>/videos</code> subfolder for organization</li>
+                <li>Example path: <code>/public/videos/showreel.mp4</code></li>
+              </ul>
+            </li>
+            <li>
+              <strong>Remote hosting:</strong> Upload your videos to a service like Cloudinary, AWS S3, or a CDN and use the URL.
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section>
+        <h3 className="text-lg font-medium mb-2">Step 3: Update the Code</h3>
+        <div className="space-y-2">
+          <p>Now that your files are available, update the relevant components:</p>
+          
+          <div className="space-y-3">
+            <div>
+              <h4 className="font-medium">Hero Video:</h4>
+              <p>Open <code>src/components/Hero.tsx</code> and update the featured projects:</p>
+              <pre className="bg-gray-900 p-2 rounded mt-1 overflow-x-auto">
+                <code>{`const featuredProjects = [
+  {
+    title: "Your Project Title",
+    videoSrc: "/videos/your-video.mp4" // Local path from public folder
+  }
+];`}</code>
+              </pre>
             </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            <ol className="list-decimal pl-6 space-y-2">
-              <li>Compress your videos to web-friendly formats (MP4, WebM)</li>
-              <li>Recommended video settings:
-                <ul className="list-disc pl-6 mt-1">
-                  <li>Resolution: 1920×1080 (Full HD) or 1280×720 (HD)</li>
-                  <li>Codec: H.264 for MP4</li>
-                  <li>Bitrate: 2-5 Mbps for HD content</li>
-                  <li>Audio: AAC, 128-256 Kbps</li>
-                </ul>
-              </li>
-              <li>Optimize images to JPG or WebP format under 500KB when possible</li>
-            </ol>
-          </AccordionContent>
-        </AccordionItem>
-        
-        <AccordionItem value="step2">
-          <AccordionTrigger className="text-left">
-            <div className="flex items-center">
-              <Upload className="mr-2" size={18} />
-              <span>Step 2: Upload Your Files</span>
-            </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            <p className="mb-3">If using Lovable's online editor:</p>
-            <ol className="list-decimal pl-6 space-y-2">
-              <li>Click "Dev Mode" in the top-left corner</li>
-              <li>Navigate to the "Files" tab</li>
-              <li>Click the "Upload" button and select your files</li>
-              <li>Videos and images should be uploaded to the <code>/public</code> directory</li>
-            </ol>
             
-            <p className="mt-4 mb-3">If working locally with the codebase:</p>
-            <ol className="list-decimal pl-6 space-y-2">
-              <li>Place video files in the <code>/public/videos</code> directory</li>
-              <li>Place image files in the <code>/public/images</code> directory</li>
-              <li>If these directories don't exist, create them first</li>
-            </ol>
-          </AccordionContent>
-        </AccordionItem>
-        
-        <AccordionItem value="step3">
-          <AccordionTrigger className="text-left">
-            <div className="flex items-center">
-              <FileVideo className="mr-2" size={18} />
-              <span>Step 3: Update the Projects List</span>
+            <div>
+              <h4 className="font-medium">Project Images:</h4>
+              <p>Open <code>src/components/FilteredWork.tsx</code> and update the projects array:</p>
+              <pre className="bg-gray-900 p-2 rounded mt-1 overflow-x-auto">
+                <code>{`{
+  id: 1,
+  title: "Your Project",
+  category: "Category",
+  description: "Description text",
+  image: "/images/your-image.jpg", // Local path
+  // OR
+  image: "https://your-cdn.com/images/your-image.jpg", // Remote URL
+  filters: ["category1", "category2"]
+}`}</code>
+              </pre>
             </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            <p className="mb-3">To add your videos to the portfolio:</p>
-            <ol className="list-decimal pl-6 space-y-2">
-              <li>Open <code>src/components/FilteredWork.tsx</code></li>
-              <li>Locate the <code>allProjects</code> array</li>
-              <li>Add or modify entries with your video/image paths:
-                <pre className="bg-gray-900 p-2 rounded mt-2 overflow-x-auto">
-{`{
-  title: "Your Project Title",
-  description: "Brief description of your project",
-  category: "Choose from existing categories",
-  videoSrc: "/videos/your-video-file.mp4",
-  imageSrc: "https://your-image-url.jpg" // or "/images/your-image.jpg"
-}`}
-                </pre>
-              </li>
-            </ol>
-          </AccordionContent>
-        </AccordionItem>
-        
-        <AccordionItem value="step4">
-          <AccordionTrigger className="text-left">
-            <div className="flex items-center">
-              <File className="mr-2" size={18} />
-              <span>Step 4: Advanced Customization</span>
+            
+            <div>
+              <h4 className="font-medium">Video Carousel:</h4>
+              <p>To update the video carousel, edit <code>src/components/VideoCarousel.tsx</code>:</p>
+              <pre className="bg-gray-900 p-2 rounded mt-1 overflow-x-auto">
+                <code>{`// Replace placeholder images with your videos
+const videos = [
+  '/videos/video1.mp4',
+  '/videos/video2.mp4'
+];`}</code>
+              </pre>
             </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            <p className="mb-3">To modify other aspects of the site:</p>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>Edit hero videos in <code>src/components/Hero.tsx</code></li>
-              <li>Update about section content in <code>src/components/About.tsx</code></li>
-              <li>Modify contact information in <code>src/components/Contact.tsx</code></li>
-              <li>To add new work categories:
-                <ol className="list-decimal pl-6 mt-1">
-                  <li>Edit <code>categories</code> array in <code>FilteredWork.tsx</code></li>
-                  <li>Add the new category to your project entries</li>
-                </ol>
-              </li>
-            </ul>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-      
-      <div className="mt-6 p-4 bg-gray-900 rounded border border-gray-700">
-        <h4 className="text-lg font-medium mb-2">Video Paths Example</h4>
-        <p className="text-sm text-gray-400 mb-2">If your video is located in <code>/public/videos/showreel.mp4</code>, the path should be:</p>
-        <code>videoSrc: "/videos/showreel.mp4"</code>
-      </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h3 className="text-lg font-medium mb-2">Step 4: Testing and Optimization</h3>
+        <div className="space-y-2">
+          <p>After adding your assets, be sure to:</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Test the site on different devices to ensure videos load correctly</li>
+            <li>Verify that videos autoplay smoothly without causing performance issues</li>
+            <li>Consider adding poster images for videos to show while loading</li>
+            <li>Monitor site performance and further compress assets if loading times are too long</li>
+          </ul>
+        </div>
+      </section>
     </div>
   );
 };
