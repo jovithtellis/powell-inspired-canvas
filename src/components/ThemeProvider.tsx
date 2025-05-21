@@ -16,7 +16,7 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setTheme] = useState<Theme>('dark'); // Default to dark theme
 
   useEffect(() => {
     // Check if theme preference exists in localStorage
@@ -24,18 +24,23 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     
     if (savedTheme) {
       setTheme(savedTheme);
-      document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme('dark');
-      document.documentElement.classList.add('dark');
+      applyTheme(savedTheme);
+    } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+      setTheme('light');
+      applyTheme('light');
     }
   }, []);
+
+  const applyTheme = (newTheme: Theme) => {
+    document.documentElement.classList.toggle('dark', newTheme === 'dark');
+    document.body.classList.toggle('light', newTheme === 'light');
+  };
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);
-    document.documentElement.classList.toggle('dark', newTheme === 'dark');
+    applyTheme(newTheme);
   };
 
   return (
@@ -61,7 +66,7 @@ export const ThemeToggle = () => {
       variant="ghost" 
       size="icon" 
       onClick={toggleTheme} 
-      className="rounded-full"
+      className="rounded-full border border-gray-600 dark:border-gray-600 light:border-yellow-300"
       aria-label="Toggle theme"
     >
       {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}

@@ -5,33 +5,33 @@
 
 @layer base {
   :root {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 95%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
 
-    --card: 0 0% 5%;
-    --card-foreground: 0 0% 95%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
 
-    --popover: 0 0% 5%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
 
-    --primary: 0 0% 95%;
-    --primary-foreground: 0 0% 5%;
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 95%;
+    --secondary: 0 0% 95%;
+    --secondary-foreground: 0 0% 0%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 0 0% 15%;
-    --accent-foreground: 0 0% 95%;
+    --accent: 0 0% 95%;
+    --accent-foreground: 0 0% 0%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 95%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 0 0% 80%;
+    --border: 0 0% 85%;
+    --input: 0 0% 85%;
+    --ring: 0 0% 0%;
 
     --radius: 0.5rem;
   }
@@ -82,6 +82,10 @@
     background-color: black;
     /* Hide default cursor when using custom cursor */
     cursor: none;
+  }
+
+  body.light {
+    background-color: white;
   }
 
   a, button, [role="button"] {
@@ -162,10 +166,52 @@
     opacity: 1;
     transform: translate(0, 0);
   }
+
+  /* Premium button styles */
+  .button-premium {
+    @apply border border-gray-500 bg-gradient-to-r from-transparent via-gray-800 to-transparent hover:via-gray-700 transition-all;
+  }
+
+  .light .button-premium {
+    @apply border border-yellow-300 bg-gradient-to-r from-transparent via-yellow-50 to-transparent hover:via-yellow-100 text-black;
+  }
+
+  /* Silver gradient for separators */
+  .separator-silver {
+    @apply h-px bg-gradient-to-r from-transparent via-gray-400 to-transparent opacity-50;
+  }
+
+  .light .separator-silver {
+    @apply bg-gradient-to-r from-transparent via-yellow-300 to-transparent;
+  }
 }
 
 /* Cursor animations */
 .cursor-dot {
   mix-blend-mode: difference;
   pointer-events: none;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  /* Horizontal scroll with partially visible items */
+  .scroll-container {
+    @apply overflow-x-auto pb-4 -mx-4 px-4;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  .scroll-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+  }
+  
+  .scroll-item {
+    scroll-snap-align: start;
+    min-width: 80%; /* Show only partial width to indicate more content */
+    margin-right: 1rem;
+  }
+  
+  .scroll-item:last-child {
+    margin-right: 40%; /* Create space at the end to show there are more items */
+  }
 }

@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import AnimatedBackground from './AnimatedBackground';
 import VideoCarousel from './VideoCarousel';
+import { ChevronDown } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Featured project for hero section
 const featuredProjects = [
@@ -13,24 +15,33 @@ const featuredProjects = [
 
 const Hero = () => {
   const [activeProject, setActiveProject] = useState<string | null>(null);
+  const isMobile = useIsMobile();
+
+  const scrollToWork = () => {
+    const workSection = document.getElementById('work');
+    if (workSection) {
+      workSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <>
       <AnimatedBackground active={activeProject} projects={featuredProjects} />
       
-      <section className="h-screen relative">
+      <section className={`${isMobile ? 'h-[100svh]' : 'h-screen'} relative`}>
         <div className="absolute inset-0 z-0">
           <VideoCarousel />
         </div>
-        <div className="absolute bottom-20 left-0 right-0 px-4 md:px-12 z-10">
-          <div className="slide-in-up opacity-0" style={{ animationDelay: '0.5s' }}>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-4">
-              Jovith Tellis
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-300 max-w-2xl">
-              Creative Director & Filmmaker crafting immersive visual experiences.
-            </p>
-          </div>
+        
+        {/* Scroll down indicator for mobile */}
+        <div className="absolute bottom-8 left-0 right-0 z-10 flex justify-center animate-bounce">
+          <button 
+            onClick={scrollToWork}
+            className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center border border-white/30"
+            aria-label="Scroll down"
+          >
+            <ChevronDown className="text-white/80" size={20} />
+          </button>
         </div>
       </section>
     </>

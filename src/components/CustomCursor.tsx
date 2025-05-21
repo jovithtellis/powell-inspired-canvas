@@ -11,6 +11,7 @@ const CustomCursor = () => {
   const [position, setPosition] = useState<CursorPosition>({ x: -100, y: -100, timestamp: Date.now() });
   const [trail, setTrail] = useState<CursorPosition[]>([]);
   const [isPointer, setIsPointer] = useState(false);
+  const [cursorColor, setCursorColor] = useState('white');
   const trailLength = 5; // Number of echo elements
 
   useEffect(() => {
@@ -27,6 +28,22 @@ const CustomCursor = () => {
         const newTrail = [newPosition, ...prevTrail.slice(0, trailLength - 1)];
         return newTrail;
       });
+      
+      // Dynamically change cursor color based on element underneath
+      updateCursorColor(e.clientX, e.clientY);
+    };
+
+    const updateCursorColor = (x: number, y: number) => {
+      const element = document.elementFromPoint(x, y);
+      const bgColor = window.getComputedStyle(element || document.body).backgroundColor;
+      
+      // Default to white for dark backgrounds, black for light backgrounds
+      if (bgColor === 'rgba(0, 0, 0, 0)' || bgColor === 'transparent') {
+        setCursorColor('white'); // Default color
+      } else if (bgColor.includes('rgb(255, 255, 255)') || 
+                bgColor.includes('rgba(255, 255, 255,')) {
+        setCursorColor('#333');
+      }
     };
 
     const updateCursorType = () => {
@@ -64,9 +81,9 @@ const CustomCursor = () => {
           transform: 'translate(-50%, -50%)',
         }}
       >
-        <div className={`rounded-full bg-white transition-all duration-100 ${
+        <div className={`rounded-full bg-${cursorColor} transition-all duration-100 ${
           isPointer ? 'w-12 h-12 opacity-70' : 'w-8 h-8 opacity-50'
-        }`}></div>
+        }`} style={{ backgroundColor: cursorColor }}></div>
       </div>
       
       {/* Echo trail */}
@@ -81,24 +98,24 @@ const CustomCursor = () => {
             opacity: (1 - index * 0.15), // Decreasing opacity for trail
           }}
         >
-          <div className={`rounded-full bg-white ${
+          <div className={`rounded-full ${
             isPointer ? 'w-10 h-10' : 'w-6 h-6'
           }`} style={{ 
             opacity: (0.4 - index * 0.07),
             transform: `scale(${1 - index * 0.15})`,
+            backgroundColor: cursorColor,
           }}></div>
         </div>
       ))}
       
-      {/* Inner cursor with motion blur */}
+      {/* Inner cursor without glow */}
       <div 
-        className="fixed pointer-events-none z-50 w-2 h-2 rounded-full bg-white"
+        className="fixed pointer-events-none z-50 w-2 h-2 rounded-full"
         style={{
           left: `${position.x}px`,
           top: `${position.y}px`,
           transform: 'translate(-50%, -50%)',
-          filter: 'blur(0.5px)',
-          boxShadow: '0 0 10px 1px rgba(255, 255, 255, 0.7)',
+          backgroundColor: cursorColor,
         }}
       ></div>
     </>

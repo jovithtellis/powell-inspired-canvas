@@ -37,11 +37,6 @@ const ToggleGroupItem = React.forwardRef<
     VariantProps<typeof toggleVariants>
 >(({ className, children, variant, size, ...props }, ref) => {
   const context = React.useContext(ToggleGroupContext)
-  const [isOn, setIsOn] = React.useState(props["data-state"] === "on")
-  
-  React.useEffect(() => {
-    setIsOn(props["data-state"] === "on")
-  }, [props["data-state"]])
 
   return (
     <ToggleGroupPrimitive.Item
@@ -51,13 +46,10 @@ const ToggleGroupItem = React.forwardRef<
           variant: context.variant || variant,
           size: context.size || size,
         }),
-        "relative z-10",
+        "relative z-10 transition-all duration-300",
         className
       )}
       {...props}
-      onPointerDown={(e) => {
-        props.onPointerDown?.(e)
-      }}
     >
       {children}
     </ToggleGroupPrimitive.Item>
