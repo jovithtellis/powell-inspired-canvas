@@ -1,137 +1,55 @@
 
 import React from 'react';
 import ExpandableContent from './ExpandableContent';
-import { Separator } from '@/components/ui/separator';
-import { useIsMobile } from '@/hooks/use-mobile';
-
-const Skills = () => {
-  const isMobile = useIsMobile();
-  const [showAllSkills, setShowAllSkills] = React.useState(false);
-  
-  const allSkills = [
-    {
-      title: "Direction",
-      description: "Creative vision, actor guidance, set management"
-    },
-    {
-      title: "Cinematography",
-      description: "Lighting design, camera operation, visual composition"
-    },
-    {
-      title: "Post-Production",
-      description: "Editing, color grading, motion graphics"
-    },
-    {
-      title: "Project Management",
-      description: "Production planning, team coordination, budget control"
-    },
-    {
-      title: "Storytelling",
-      description: "Narrative development, script writing, emotional arcs"
-    },
-    {
-      title: "Sound Design",
-      description: "Audio mixing, music selection, foley artistry"
-    },
-    {
-      title: "Visual Effects",
-      description: "CGI integration, compositing, green screen"
-    },
-    {
-      title: "Client Relations",
-      description: "Pitching, feedback integration, client management"
-    },
-    {
-      title: "Brand Development",
-      description: "Visual identity, consistent messaging, brand storytelling"
-    },
-    {
-      title: "Technical Direction",
-      description: "Equipment selection, technical problem-solving, innovation"
-    }
-  ];
-
-  // For mobile, show limited skills unless expanded
-  const displaySkills = isMobile && !showAllSkills ? allSkills.slice(0, 4) : allSkills;
-
-  return (
-    <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {displaySkills.map((skill, index) => (
-          <div key={index} className="p-3 bg-secondary bg-opacity-50 rounded-md hover:bg-opacity-70 transition-all border border-gray-800 group">
-            <div className="font-medium group-hover:text-white transition-colors">{skill.title}</div>
-            <div className="text-sm text-gray-400">{skill.description}</div>
-          </div>
-        ))}
-      </div>
-      
-      {isMobile && allSkills.length > 4 && (
-        <button
-          onClick={() => setShowAllSkills(!showAllSkills)}
-          className="mt-4 text-sm text-gray-400 border border-gray-700 px-3 py-1.5 rounded hover:text-white hover:border-gray-500 transition-colors"
-        >
-          {showAllSkills ? "Show Less" : "View More Skills"}
-        </button>
-      )}
-    </>
-  );
-};
 
 const About = () => {
-  const isMobile = useIsMobile();
-  
   return (
     <section id="about" className="section-padding relative z-10">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-medium mb-10 slide-in-left">About Me</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
-          {/* For mobile: Image first, then text */}
-          {isMobile && (
-            <div className="slide-in-right opacity-0" style={{ animationDelay: '0.3s' }}>
-              <div className="aspect-[4/3] overflow-hidden rounded-lg mb-8">
-                <img 
-                  src="https://images.unsplash.com/photo-1601042879364-f3947d3f9c16?q=80&w=1000" 
-                  alt="Jovith Tellis" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          )}
-          
           <div className="slide-in-left opacity-0" style={{ animationDelay: '0.1s' }}>
             <div className="text-lg mb-6">
               <p className="mb-4">I'm a filmmaker and creative director with over a decade of experience crafting compelling visual narratives across multiple formats.</p>
               <p>My work spans commercial, documentary, and narrative projects, with a focus on emotive storytelling and visually striking cinematography.</p>
             </div>
-          </div>
-          
-          {/* For desktop: Image on the right */}
-          {!isMobile && (
-            <div className="slide-in-right opacity-0" style={{ animationDelay: '0.3s' }}>
-              <div className="aspect-[4/3] overflow-hidden rounded-lg mb-8">
-                <img 
-                  src="https://images.unsplash.com/photo-1601042879364-f3947d3f9c16?q=80&w=1000" 
-                  alt="Jovith Tellis" 
-                  className="w-full h-full object-cover"
-                />
+            
+            <div className="mt-12">
+              <h3 className="text-xl font-medium mb-4">Skills</h3>
+              <div className="grid grid-cols-1 gap-2">
+                <div className="p-3 bg-secondary bg-opacity-50 rounded-md hover:bg-opacity-70 transition-all">
+                  <div className="font-medium">Direction</div>
+                  <div className="text-sm text-gray-400">Creative vision, actor guidance, set management</div>
+                </div>
+                
+                <div className="p-3 bg-secondary bg-opacity-50 rounded-md hover:bg-opacity-70 transition-all">
+                  <div className="font-medium">Cinematography</div>
+                  <div className="text-sm text-gray-400">Lighting design, camera operation, visual composition</div>
+                </div>
+                
+                <div className="p-3 bg-secondary bg-opacity-50 rounded-md hover:bg-opacity-70 transition-all">
+                  <div className="font-medium">Post-Production</div>
+                  <div className="text-sm text-gray-400">Editing, color grading, motion graphics</div>
+                </div>
+                
+                <div className="p-3 bg-secondary bg-opacity-50 rounded-md hover:bg-opacity-70 transition-all">
+                  <div className="font-medium">Project Management</div>
+                  <div className="text-sm text-gray-400">Production planning, team coordination, budget control</div>
+                </div>
               </div>
             </div>
-          )}
-        </div>
-        
-        {/* Silver gradient separator */}
-        <div className="my-16 relative">
-          <Separator className="bg-gradient-to-r from-gray-900 via-gray-400 to-gray-900 h-px opacity-60" />
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
-          <div className="slide-in-left opacity-0" style={{ animationDelay: '0.1s' }}>
-            <h3 className="text-xl font-medium mb-4">Skills</h3>
-            <Skills />
           </div>
           
           <div className="slide-in-right opacity-0" style={{ animationDelay: '0.3s' }}>
+            <div className="aspect-[4/3] overflow-hidden rounded-lg mb-8">
+              <img 
+                src="https://images.unsplash.com/photo-1601042879364-f3947d3f9c16?q=80&w=1000" 
+                alt="Jovith Tellis" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+            
             <h3 className="text-xl font-medium mb-4">Experience</h3>
             
             <ExpandableContent 

@@ -12,12 +12,9 @@ import VideoAssetGuide from '../components/VideoAssetGuide';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Info } from 'lucide-react';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { ThemeProvider } from '../components/ThemeProvider';
 
 const Index = () => {
   const [showGuide, setShowGuide] = useState(false);
-  const isMobile = useIsMobile();
   
   useEffect(() => {
     document.title = 'Jovith Tellis - Creative Director & Filmmaker';
@@ -58,41 +55,39 @@ const Index = () => {
   }, []);
 
   return (
-    <ThemeProvider>
-      <div className="bg-background text-foreground dark-mode">
-        <CustomCursor />
-        <GradientBackground />
-        <Navbar />
-        <Hero />
-        <FilteredWork />
-        <About />
-        <Contact />
-        <Footer />
-        
-        {/* Video Assets Guide Dialog */}
-        <Dialog open={showGuide} onOpenChange={setShowGuide}>
-          <DialogTrigger asChild>
-            <Button 
-              variant="outline" 
-              size="icon" 
-              className="fixed bottom-6 right-6 z-50 rounded-full bg-black border-gray-700 hover:bg-gray-900"
-              onClick={() => setShowGuide(true)}
-            >
-              <Info size={20} />
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-3xl bg-black border-gray-800">
-            <DialogHeader>
-              <DialogTitle>Using Your Own Assets</DialogTitle>
-              <DialogDescription>
-                Follow this guide to add your videos and images to the portfolio.
-              </DialogDescription>
-            </DialogHeader>
-            <VideoAssetGuide />
-          </DialogContent>
-        </Dialog>
-      </div>
-    </ThemeProvider>
+    <div className="bg-background text-foreground">
+      <CustomCursor />
+      <GradientBackground />
+      <Navbar />
+      <Hero />
+      <FilteredWork />
+      <About />
+      <Contact />
+      <Footer />
+      
+      {/* Video Assets Guide Dialog */}
+      <Dialog open={showGuide} onOpenChange={setShowGuide}>
+        <DialogTrigger asChild>
+          <Button 
+            variant="outline" 
+            size="icon" 
+            className="fixed bottom-6 right-6 z-50 rounded-full bg-black border-gray-700 hover:bg-gray-900"
+            onClick={() => setShowGuide(true)}
+          >
+            <Info size={20} />
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="max-w-3xl bg-black border-gray-800">
+          <DialogHeader>
+            <DialogTitle>Using Your Own Assets</DialogTitle>
+            <DialogDescription>
+              Follow this guide to add your videos and images to the portfolio.
+            </DialogDescription>
+          </DialogHeader>
+          <VideoAssetGuide />
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 };
 

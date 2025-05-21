@@ -5,7 +5,6 @@ const GradientBackground = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [mouseVelocity, setMouseVelocity] = useState({ x: 0, y: 0 });
   const [prevPosition, setPrevPosition] = useState({ x: 0, y: 0 });
-  const { theme } = { theme: 'dark' }; // Default to dark
   
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -36,25 +35,19 @@ const GradientBackground = () => {
   const gradientX = mousePosition.x * 100;
   const gradientY = mousePosition.y * 100;
   
-  // Velocity determines taper effect in the opposite direction
-  // Higher velocity = narrower gradient in opposite direction
-  const taperX = 100 - (mouseVelocity.x * 200); // Opposite of velocity
-  const taperY = 100 - (mouseVelocity.y * 200); // Opposite of velocity
-  
-  // Determine gradient color based on theme
-  const gradientColor = theme === 'light' 
-    ? 'rgba(255, 215, 0, 0.2)' // Gold tone for light mode
-    : 'rgba(138, 43, 226, 0.3)'; // Purple tone for dark mode
+  // Calculate taper effect (opposite of velocity)
+  const taperX = 50 + (mouseVelocity.x * 100);
+  const taperY = 50 + (mouseVelocity.y * 100);
   
   return (
     <div className="fixed inset-0 w-full h-full pointer-events-none z-0">
       <div
-        className="absolute inset-0 opacity-20 transition-all duration-300"
+        className="absolute inset-0 opacity-30"
         style={{
           background: `radial-gradient(ellipse at ${gradientX}% ${gradientY}%, 
-            ${gradientColor} 0%, 
-            rgba(34, 20, 80, 0.2) ${Math.max(20, taperX)}%, 
-            rgba(0, 0, 0, 0) ${Math.max(40, taperY)}%)`,
+            rgba(138, 43, 226, 0.6) 0%, 
+            rgba(34, 20, 80, 0.3) ${taperX}%, 
+            rgba(0, 0, 0, 0) ${taperY}%)`,
         }}
       />
     </div>

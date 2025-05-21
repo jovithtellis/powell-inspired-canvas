@@ -11,7 +11,6 @@ const CustomCursor = () => {
   const [position, setPosition] = useState<CursorPosition>({ x: -100, y: -100, timestamp: Date.now() });
   const [trail, setTrail] = useState<CursorPosition[]>([]);
   const [isPointer, setIsPointer] = useState(false);
-  const [isOverDark, setIsOverDark] = useState(false);
   const trailLength = 5; // Number of echo elements
 
   useEffect(() => {
@@ -39,12 +38,6 @@ const CustomCursor = () => {
         hoveredElement?.closest('a') !== null ||
         window.getComputedStyle(hoveredElement || document.body).cursor === 'pointer'
       );
-      
-      // Check if cursor is over a dark or light area by evaluating the element's background
-      const elementBg = window.getComputedStyle(hoveredElement || document.body).backgroundColor;
-      // Simple check - can be expanded with more sophisticated detection
-      setIsOverDark(elementBg.includes('0, 0, 0') || elementBg.includes('rgb(0,') || 
-                   hoveredElement?.closest('.dark-section') !== null);
     };
 
     window.addEventListener('mousemove', updatePosition);
@@ -60,8 +53,6 @@ const CustomCursor = () => {
     };
   }, [position]);
 
-  const cursorColor = isOverDark ? 'bg-white' : 'bg-black';
-
   return (
     <>
       {/* Main cursor (blend difference) */}
@@ -73,7 +64,7 @@ const CustomCursor = () => {
           transform: 'translate(-50%, -50%)',
         }}
       >
-        <div className={`rounded-full ${cursorColor} transition-all duration-100 ${
+        <div className={`rounded-full bg-white transition-all duration-100 ${
           isPointer ? 'w-12 h-12 opacity-70' : 'w-8 h-8 opacity-50'
         }`}></div>
       </div>
@@ -90,7 +81,7 @@ const CustomCursor = () => {
             opacity: (1 - index * 0.15), // Decreasing opacity for trail
           }}
         >
-          <div className={`rounded-full ${cursorColor} ${
+          <div className={`rounded-full bg-white ${
             isPointer ? 'w-10 h-10' : 'w-6 h-6'
           }`} style={{ 
             opacity: (0.4 - index * 0.07),
@@ -99,13 +90,15 @@ const CustomCursor = () => {
         </div>
       ))}
       
-      {/* Inner cursor */}
+      {/* Inner cursor with motion blur */}
       <div 
-        className={`fixed pointer-events-none z-50 w-2 h-2 rounded-full ${cursorColor}`}
+        className="fixed pointer-events-none z-50 w-2 h-2 rounded-full bg-white"
         style={{
           left: `${position.x}px`,
           top: `${position.y}px`,
           transform: 'translate(-50%, -50%)',
+          filter: 'blur(0.5px)',
+          boxShadow: '0 0 10px 1px rgba(255, 255, 255, 0.7)',
         }}
       ></div>
     </>
