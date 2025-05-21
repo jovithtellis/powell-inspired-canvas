@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
+import { useTheme } from './ThemeProvider';
 
 interface ProjectCardProps {
   title: string;
@@ -23,6 +24,12 @@ const ProjectCard = ({
   onHover,
   onLeave 
 }: ProjectCardProps) => {
+  const { theme } = useTheme();
+  
+  const titleClass = theme === 'light' ? 'text-black' : 'text-inherit';
+  const descriptionClass = theme === 'light' ? 'text-gray-800' : 'text-gray-600';
+  const categoryClass = theme === 'light' ? 'text-gray-600' : 'text-gray-500';
+  
   return (
     <div 
       className={`mb-12 opacity-0 animate-fadeIn`}
@@ -43,14 +50,14 @@ const ProjectCard = ({
         
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-sm text-gray-500 mb-2">{category}</p>
-            <h3 className="text-3xl font-medium mb-3 transition-transform group-hover:translate-x-2">
+            <p className={`text-sm ${categoryClass} mb-2`}>{category}</p>
+            <h3 className={`text-3xl font-medium mb-3 transition-transform group-hover:translate-x-2 ${titleClass}`}>
               {title.startsWith("→") ? title : `→${title}`}
             </h3>
-            <p className="text-gray-600 mb-4 max-w-2xl">{description}</p>
+            <p className={`${descriptionClass} mb-4 max-w-2xl`}>{description}</p>
           </div>
           <div className="mt-1">
-            <span className="inline-flex items-center text-sm font-medium hover-underline group-hover:translate-x-2 transition-transform">
+            <span className={`inline-flex items-center text-sm font-medium hover-underline group-hover:translate-x-2 transition-transform ${titleClass}`}>
               View <ArrowRight size={16} className="ml-1" />
             </span>
           </div>

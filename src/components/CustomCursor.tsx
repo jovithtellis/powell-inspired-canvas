@@ -72,16 +72,16 @@ const CustomCursor = () => {
 
   return (
     <>
-      {/* Main cursor (blend difference) */}
+      {/* Main cursor */}
       <div 
-        className="fixed pointer-events-none z-50 mix-blend-difference"
+        className="fixed pointer-events-none z-50"
         style={{
           left: `${position.x}px`,
           top: `${position.y}px`,
           transform: 'translate(-50%, -50%)',
         }}
       >
-        <div className={`rounded-full bg-${cursorColor} transition-all duration-100 ${
+        <div className={`rounded-full transition-all duration-100 ${
           isPointer ? 'w-12 h-12 opacity-70' : 'w-8 h-8 opacity-50'
         }`} style={{ backgroundColor: cursorColor }}></div>
       </div>
@@ -90,7 +90,7 @@ const CustomCursor = () => {
       {trail.map((pos, index) => (
         <div 
           key={pos.timestamp}
-          className="fixed pointer-events-none z-50 mix-blend-difference"
+          className="fixed pointer-events-none z-50"
           style={{
             left: `${pos.x}px`,
             top: `${pos.y}px`,
