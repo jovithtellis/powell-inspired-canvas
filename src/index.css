@@ -5,38 +5,6 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
-
-    --primary: 0 0% 0%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 0 0% 95%;
-    --secondary-foreground: 0 0% 0%;
-
-    --muted: 0 0% 95%;
-    --muted-foreground: 0 0% 45%;
-
-    --accent: 0 0% 95%;
-    --accent-foreground: 0 0% 0%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 0 0% 85%;
-    --input: 0 0% 85%;
-    --ring: 0 0% 0%;
-
-    --radius: 0.5rem;
-  }
-
-  .dark {
     --background: 0 0% 0%;
     --foreground: 0 0% 95%;
 
@@ -64,6 +32,8 @@
     --border: 0 0% 20%;
     --input: 0 0% 20%;
     --ring: 0 0% 80%;
+
+    --radius: 0.5rem;
   }
 }
 
@@ -82,10 +52,6 @@
     background-color: black;
     /* Hide default cursor when using custom cursor */
     cursor: none;
-  }
-
-  body.light {
-    background-color: white;
   }
 
   a, button, [role="button"] {
@@ -167,22 +133,42 @@
     transform: translate(0, 0);
   }
 
-  /* Premium button styles */
-  .button-premium {
-    @apply border border-gray-500 bg-gradient-to-r from-transparent via-gray-800 to-transparent hover:via-gray-700 transition-all;
+  /* Premium glass morphism styles for skills section */
+  .glass-box {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid;
+    border-image: linear-gradient(135deg, rgba(192, 192, 192, 0.3), rgba(128, 128, 128, 0.1)) 1;
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
-  .light .button-premium {
-    @apply border border-yellow-300 bg-gradient-to-r from-transparent via-yellow-50 to-transparent hover:via-yellow-100 text-black;
+  .silver-gradient-border {
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+  }
+
+  .silver-gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    background: linear-gradient(135deg, 
+      rgba(192, 192, 192, 0.4), 
+      rgba(128, 128, 128, 0.2), 
+      rgba(192, 192, 192, 0.4)
+    );
+    border-radius: inherit;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: xor;
+    -webkit-mask-composite: xor;
   }
 
   /* Silver gradient for separators */
   .separator-silver {
     @apply h-px bg-gradient-to-r from-transparent via-gray-400 to-transparent opacity-50;
-  }
-
-  .light .separator-silver {
-    @apply bg-gradient-to-r from-transparent via-yellow-300 to-transparent;
   }
 }
 

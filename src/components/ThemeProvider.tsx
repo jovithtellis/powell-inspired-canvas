@@ -3,10 +3,8 @@
 
 import * as React from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { Moon, Sun } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
-type Theme = 'light' | 'dark';
+type Theme = 'dark';
 
 interface ThemeContextType {
   theme: Theme;
@@ -16,31 +14,16 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>('dark'); // Default to dark theme
+  const [theme, setTheme] = useState<Theme>('dark'); // Always dark theme
 
   useEffect(() => {
-    // Check if theme preference exists in localStorage
-    const savedTheme = localStorage.getItem('theme') as Theme | null;
-    
-    if (savedTheme) {
-      setTheme(savedTheme);
-      applyTheme(savedTheme);
-    } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-      setTheme('light');
-      applyTheme('light');
-    }
+    // Always apply dark theme
+    document.documentElement.classList.add('dark');
+    document.body.classList.remove('light');
   }, []);
 
-  const applyTheme = (newTheme: Theme) => {
-    document.documentElement.classList.toggle('dark', newTheme === 'dark');
-    document.body.classList.toggle('light', newTheme === 'light');
-  };
-
   const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    applyTheme(newTheme);
+    // No-op since we only support dark mode now
   };
 
   return (
@@ -58,18 +41,4 @@ export const useTheme = () => {
   return context;
 };
 
-export const ThemeToggle = () => {
-  const { theme, toggleTheme } = useTheme();
-  
-  return (
-    <Button 
-      variant="ghost" 
-      size="icon" 
-      onClick={toggleTheme} 
-      className="rounded-full border border-gray-600 dark:border-gray-600 light:border-yellow-300"
-      aria-label="Toggle theme"
-    >
-      {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-    </Button>
-  );
-};
+// Remove ThemeToggle component since we don't need it anymore

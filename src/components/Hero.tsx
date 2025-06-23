@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import AnimatedBackground from './AnimatedBackground';
-import VideoCarousel from './VideoCarousel';
 import { ChevronDown } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -29,11 +28,26 @@ const Hero = () => {
       <AnimatedBackground active={activeProject} projects={featuredProjects} />
       
       <section className={`${isMobile ? 'h-[100svh]' : 'h-screen'} relative`}>
+        {/* Single video background */}
         <div className="absolute inset-0 z-0">
-          <VideoCarousel />
+          <video 
+            autoPlay 
+            muted 
+            loop 
+            playsInline
+            className="w-full h-full object-cover"
+          >
+            <source src="/videos/showreel.mp4" type="video/mp4" />
+            {/* Fallback image */}
+            <img 
+              src="https://images.unsplash.com/photo-1515634928627-2a4e0dae3ddf?q=80&w=1920&h=1080" 
+              alt="Hero background" 
+              className="w-full h-full object-cover"
+            />
+          </video>
         </div>
         
-        {/* Scroll down indicator for mobile */}
+        {/* Scroll down indicator */}
         <div className="absolute bottom-8 left-0 right-0 z-10 flex justify-center animate-bounce">
           <button 
             onClick={scrollToWork}

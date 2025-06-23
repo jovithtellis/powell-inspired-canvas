@@ -1,10 +1,9 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowRight, ChevronDown, ChevronUp, Play, X } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import AnimatedBackground from './AnimatedBackground';
 import { Button } from '@/components/ui/button';
-import { useTheme } from './ThemeProvider';
 
 // Extended set of projects with additional metadata
 const allProjects = [
@@ -47,10 +46,10 @@ const FilteredWork = () => {
   const [activeProject, setActiveProject] = useState<string | null>(null);
   const [visibleProjects, setVisibleProjects] = useState(10);
   const [hoveredProject, setHoveredProject] = useState<string | null>(null);
+  const [expandedProject, setExpandedProject] = useState<string | null>(null);
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
   const toggleRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const loadMoreRef = useRef<HTMLDivElement>(null);
-  const { theme } = useTheme();
   
   const filteredProjects = filter === "All" 
     ? allProjects 
@@ -62,6 +61,7 @@ const FilteredWork = () => {
   // Reset visible projects count when filter changes
   useEffect(() => {
     setVisibleProjects(10);
+    setExpandedProject(null); // Close any expanded project when filter changes
     
     // Find the active toggle and update indicator position
     const activeIndex = categories.findIndex(cat => cat === filter);
@@ -97,6 +97,10 @@ const FilteredWork = () => {
     setVisibleProjects(prev => prev + 10);
   };
 
+  const toggleProjectExpansion = (projectTitle: string) => {
+    setExpandedProject(expandedProject === projectTitle ? null : projectTitle);
+  };
+
   // Animation observer for fade-in items
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -129,10 +133,6 @@ const FilteredWork = () => {
     };
   }, [displayedProjects]);
 
-  const titleTextClass = theme === 'light' ? 'text-black' : 'text-white';
-  const descriptionTextClass = theme === 'light' ? 'text-gray-800' : 'text-gray-300';
-  const categoryTextClass = theme === 'light' ? 'text-gray-600' : 'text-gray-400';
-
   return (
     <>
       <AnimatedBackground 
@@ -143,7 +143,7 @@ const FilteredWork = () => {
       <section id="work" className="section-padding relative z-10">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
-            <h2 className={`text-3xl md:text-4xl font-medium mb-6 ${titleTextClass} slide-in-left opacity-0`}>Selected Work</h2>
+            <h2 className="text-3xl md:text-4xl font-medium mb-6 text-white slide-in-left opacity-0">Selected Work</h2>
             
             {/* Filter Toggle Group */}
             <div className="overflow-x-auto pb-4 slide-in-right opacity-0 relative" style={{ animationDelay: '0.2s' }}>
@@ -166,7 +166,7 @@ const FilteredWork = () => {
                   <ToggleGroupItem 
                     key={category} 
                     value={category}
-                    className={`whitespace-nowrap border-b-2 border-transparent data-[state=on]:border-primary rounded-none px-3 py-2 ${theme === 'light' ? 'text-black' : 'text-white'}`}
+                    className="whitespace-nowrap border-b-2 border-transparent data-[state=on]:border-primary rounded-none px-3 py-2 text-white"
                     ref={el => toggleRefs.current[idx] = el}
                     onFocus={() => {
                       if (toggleRefs.current[idx]) {
@@ -191,7 +191,7 @@ const FilteredWork = () => {
             {displayedProjects.map((project, index) => (
               <div 
                 key={project.title}
-                className={`mb-8 py-8 opacity-0 slide-in-left border-t ${theme === 'light' ? 'border-gray-300' : 'border-gray-800'} relative group`}
+                className="mb-8 py-8 opacity-0 slide-in-left border-t border-gray-800 relative group"
                 style={{ animationDelay: `${0.1 * index}s` }}
                 onMouseEnter={() => {
                   setActiveProject(project.title);
@@ -202,22 +202,42 @@ const FilteredWork = () => {
                   setHoveredProject(null);
                 }}
               >
-                <a href="#" className="block">
+                <div 
+                  className="block cursor-pointer"
+                  onClick={() => toggleProjectExpansion(project.title)}
+                >
                   <div className="flex items-start justify-between relative z-10">
-                    <div>
-                      <p className={`text-sm ${categoryTextClass} mb-2`}>{project.category}</p>
-                      <h3 className={`text-4xl md:text-5xl lg:text-6xl font-medium mb-3 transition-transform group-hover:translate-x-4 ${titleTextClass}`}>
+                    <div className="flex-1">
+                      <p className="text-sm text-gray-400 mb-2">{project.category}</p>
+                      <h3 className="text-4xl md:text-5xl lg:text-6xl font-medium mb-3 transition-transform group-hover:translate-x-4 text-white flex items-center">
                         {project.title.startsWith("→") ? project.title : `→${project.title}`}
+                        <Play size={24} className="ml-4 opacity-60" />
                       </h3>
-                      <p className={`${descriptionTextClass} mb-4 max-w-2xl`}>{project.description}</p>
+                      <p className="text-gray-300 mb-4 max-w-2xl">{project.description}</p>
                     </div>
                     <div className="mt-1 hidden md:block">
-                      <span className={`inline-flex items-center text-sm font-medium hover-underline group-hover:translate-x-2 transition-transform ${titleTextClass}`}>
-                        View <ArrowRight size={16} className="ml-1" />
+                      <span className="inline-flex items-center text-sm font-medium hover-underline group-hover:translate-x-2 transition-transform text-white">
+                        {expandedProject === project.title ? 'Close' : 'View'} 
+                        {expandedProject === project.title ? <X size={16} className="ml-1" /> : <ArrowRight size={16} className="ml-1" />}
                       </span>
                     </div>
                   </div>
-                </a>
+                </div>
+                
+                {/* Expanded video player */}
+                {expandedProject === project.title && (
+                  <div className="mt-8 overflow-hidden rounded-lg bg-black/50 backdrop-blur-sm border border-gray-700">
+                    <video 
+                      controls 
+                      autoPlay
+                      className="w-full h-auto max-h-[70vh] object-contain"
+                      poster={project.imageSrc}
+                    >
+                      <source src={project.videoSrc} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                )}
               </div>
             ))}
             
@@ -228,7 +248,7 @@ const FilteredWork = () => {
                   variant="outline"
                   size="lg"
                   onClick={loadMore}
-                  className={`border-gray-700 ${theme === 'light' ? 'text-black' : 'text-white'} group overflow-hidden relative`}
+                  className="border-gray-700 text-white group overflow-hidden relative"
                 >
                   <span className="relative z-10">View More</span>
                   <div className="absolute inset-0 opacity-20 group-hover:opacity-30 overflow-hidden">
