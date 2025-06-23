@@ -44,7 +44,7 @@ const categories = [
 const FilteredWork = () => {
   const [filter, setFilter] = useState("All");
   const [activeProject, setActiveProject] = useState<string | null>(null);
-  const [visibleProjects, setVisibleProjects] = useState(10);
+  const [visibleProjects, setVisibleProjects] = useState(6);
   const [hoveredProject, setHoveredProject] = useState<string | null>(null);
   const [expandedProject, setExpandedProject] = useState<string | null>(null);
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
@@ -60,7 +60,7 @@ const FilteredWork = () => {
   
   // Reset visible projects count when filter changes
   useEffect(() => {
-    setVisibleProjects(10);
+    setVisibleProjects(6);
     setExpandedProject(null); // Close any expanded project when filter changes
     
     // Find the active toggle and update indicator position
@@ -94,7 +94,7 @@ const FilteredWork = () => {
   }, []);
   
   const loadMore = () => {
-    setVisibleProjects(prev => prev + 10);
+    setVisibleProjects(prev => Math.min(prev + 6, filteredProjects.length));
   };
 
   const toggleProjectExpansion = (projectTitle: string) => {
@@ -248,14 +248,10 @@ const FilteredWork = () => {
                   variant="outline"
                   size="lg"
                   onClick={loadMore}
-                  className="border-gray-700 text-white group overflow-hidden relative"
+                  className="border-gray-700 text-white hover:bg-gray-900/50 transition-colors"
                 >
-                  <span className="relative z-10">View More</span>
-                  <div className="absolute inset-0 opacity-20 group-hover:opacity-30 overflow-hidden">
-                    <div className="w-full h-full bg-cover animate-pulse" 
-                      style={{ backgroundImage: 'url(https://i.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.webp)' }}>
-                    </div>
-                  </div>
+                  View More Projects
+                  <ChevronDown size={16} className="ml-2" />
                 </Button>
               </div>
             )}
