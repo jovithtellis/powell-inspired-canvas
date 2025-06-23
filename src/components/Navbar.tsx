@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ThemeToggle } from './ThemeProvider';
 import { Separator } from '@/components/ui/separator';
 
 const Navbar = () => {
@@ -32,7 +31,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <a 
           href="#" 
-          className="text-xl font-medium hover:text-gray-400 transition-colors text-white dark:text-white light:text-black" 
+          className="text-xl font-medium hover:text-gray-400 transition-colors text-white" 
           onClick={e => {
             e.preventDefault();
             window.scrollTo({
@@ -45,9 +44,6 @@ const Navbar = () => {
         </a>
 
         <div className="flex items-center space-x-4">
-          {/* Theme toggle */}
-          <ThemeToggle />
-
           {/* Desktop menu */}
           <div className="hidden md:flex space-x-8">
             <NavLink title="Work" onClick={() => scrollToSection('work')} />
@@ -59,7 +55,7 @@ const Navbar = () => {
           <Button 
             variant="ghost" 
             size="sm" 
-            className="md:hidden text-white dark:text-white light:text-black" 
+            className="md:hidden text-white" 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -93,7 +89,7 @@ const NavLink = ({
   onClick: () => void;
 }) => (
   <button 
-    className="hover-underline font-medium text-white dark:text-white light:text-black hover:text-white/80 transition-colors" 
+    className="hover-underline font-medium text-white hover:text-white/80 transition-colors" 
     onClick={onClick}
   >
     {title}
