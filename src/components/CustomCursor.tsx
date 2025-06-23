@@ -88,16 +88,6 @@ const CustomCursor = () => {
           }}></div>
         </div>
       ))}
-      
-      {/* Inner cursor dot */}
-      <div 
-        className="fixed pointer-events-none z-50 w-1 h-1 rounded-full bg-white"
-        style={{
-          left: `${position.x}px`,
-          top: `${position.y}px`,
-          transform: 'translate(-50%, -50%)',
-        }}
-      ></div>
     </>
   );
 };

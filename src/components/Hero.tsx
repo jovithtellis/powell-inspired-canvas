@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import AnimatedBackground from './AnimatedBackground';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Play } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 // Featured project for hero section
@@ -45,6 +45,17 @@ const Hero = () => {
               className="w-full h-full object-cover"
             />
           </video>
+        </div>
+
+        {/* Video placeholder overlay */}
+        <div className="absolute inset-0 z-5 flex items-center justify-center">
+          <div className="w-64 h-36 bg-black/50 backdrop-blur-sm border border-white/20 rounded-lg flex items-center justify-center group hover:bg-black/60 transition-all duration-300 cursor-pointer">
+            <div className="text-center">
+              <Play className="w-8 h-8 text-white/80 mx-auto mb-2 group-hover:scale-110 transition-transform" />
+              <p className="text-white/80 text-sm font-medium">Director's Reel</p>
+              <p className="text-white/60 text-xs mt-1">Click to play</p>
+            </div>
+          </div>
         </div>
         
         {/* Scroll down indicator */}
