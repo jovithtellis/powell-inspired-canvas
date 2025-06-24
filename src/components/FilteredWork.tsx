@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 
 // Extended set of projects with additional metadata
 const allProjects = [
-  { title: "NuSummit Brand Revamp", description: "Short film exploring the tactile nature of ceramic arts", category: "Brand videos", videoSrc: "https://youtu.be/8-zs1MUfrnE?si=OX6xGgJZt0VYedke", imageSrc: "https://youtu.be/8-zs1MUfrnE?si=OX6xGgJZt0VYedke" },
+  { title: "NuSummit Brand Revamp", description: "Short film exploring the tactile nature of ceramic arts", category: "Brand videos", videoSrc: "https://youtu.be/8-zs1MUfrnE?si=OX6xGgJZt0VYedke", imageSrc: "https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D" },
   { title: "Monument Valley", description: "Commercial spot for the award-winning mobile game", category: "SaaS explainer videos", videoSrc: "/videos/monument-valley.mp4", imageSrc: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1000" },
   { title: "Moodnotes", description: "Motion graphics for mental health application", category: "Motion Graphics", videoSrc: "/videos/moodnotes.mp4", imageSrc: "https://images.unsplash.com/photo-1574610758891-5b809b6e6e2e?q=80&w=1000" },
   { title: "Iceland in Winter", description: "Documentary-style travel film featuring Iceland's landscapes", category: "Brand videos", videoSrc: "/videos/iceland.mp4", imageSrc: "https://images.unsplash.com/photo-1476820865390-c52aeebb9891?q=80&w=1000" },
