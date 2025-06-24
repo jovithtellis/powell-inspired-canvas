@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, ChevronDown, ChevronUp, Play, X } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import AnimatedBackground from './AnimatedBackground';
 import { Button } from '@/components/ui/button';
 
 // Extended set of projects with additional metadata
@@ -43,9 +42,7 @@ const categories = [
 
 const FilteredWork = () => {
   const [filter, setFilter] = useState("All");
-  const [activeProject, setActiveProject] = useState<string | null>(null);
   const [visibleProjects, setVisibleProjects] = useState(6);
-  const [hoveredProject, setHoveredProject] = useState<string | null>(null);
   const [expandedProject, setExpandedProject] = useState<string | null>(null);
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
   const toggleRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -134,131 +131,116 @@ const FilteredWork = () => {
   }, [displayedProjects]);
 
   return (
-    <>
-      <AnimatedBackground 
-        active={activeProject} 
-        projects={allProjects} 
-      />
-      
-      <section id="work" className="section-padding relative z-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-8">
-            <h2 className="text-3xl md:text-4xl font-medium mb-6 text-white slide-in-left opacity-0">Selected Work</h2>
-            
-            {/* Filter Toggle Group */}
-            <div className="overflow-x-auto pb-4 slide-in-right opacity-0 relative" style={{ animationDelay: '0.2s' }}>
-              {/* Animated selection indicator */}
-              <div 
-                className="absolute bottom-0 h-0.5 bg-primary transition-all duration-300 ease-out"
-                style={{ 
-                  left: `${indicator.left}px`, 
-                  width: `${indicator.width}px` 
-                }}
-              />
-              
-              <ToggleGroup 
-                type="single" 
-                value={filter} 
-                onValueChange={(value) => value && setFilter(value)}
-                className="inline-flex flex-nowrap space-x-2"
-              >
-                {categories.map((category, idx) => (
-                  <ToggleGroupItem 
-                    key={category} 
-                    value={category}
-                    className="whitespace-nowrap border-b-2 border-transparent data-[state=on]:border-primary rounded-none px-3 py-2 text-white"
-                    ref={el => toggleRefs.current[idx] = el}
-                    onFocus={() => {
-                      if (toggleRefs.current[idx]) {
-                        const toggle = toggleRefs.current[idx];
-                        if (toggle) {
-                          setIndicator({
-                            left: toggle.offsetLeft,
-                            width: toggle.offsetWidth,
-                          });
-                        }
-                      }
-                    }}
-                  >
-                    {category}
-                  </ToggleGroupItem>
-                ))}
-              </ToggleGroup>
-            </div>
-          </div>
+    <section id="work" className="section-padding relative z-10">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-8">
+          <h2 className="text-3xl md:text-4xl font-medium mb-6 text-white slide-in-left opacity-0">Selected Work</h2>
           
-          <div className="mt-16 relative z-10">
-            {displayedProjects.map((project, index) => (
-              <div 
-                key={project.title}
-                className="mb-8 py-8 opacity-0 slide-in-left border-t border-gray-800 relative group"
-                style={{ animationDelay: `${0.1 * index}s` }}
-                onMouseEnter={() => {
-                  setActiveProject(project.title);
-                  setHoveredProject(project.title);
-                }}
-                onMouseLeave={() => {
-                  setActiveProject(null);
-                  setHoveredProject(null);
-                }}
-              >
-                <div 
-                  className="block cursor-pointer"
-                  onClick={() => toggleProjectExpansion(project.title)}
-                >
-                  <div className="flex items-start justify-between relative z-10">
-                    <div className="flex-1">
-                      <p className="text-sm text-gray-400 mb-2">{project.category}</p>
-                      <h3 className="text-4xl md:text-5xl lg:text-6xl font-medium mb-3 transition-transform group-hover:translate-x-4 text-white flex items-center">
-                        {project.title.startsWith("→") ? project.title : `→${project.title}`}
-                        <Play size={24} className="ml-4 opacity-60" />
-                      </h3>
-                      <p className="text-gray-300 mb-4 max-w-2xl">{project.description}</p>
-                    </div>
-                    <div className="mt-1 hidden md:block">
-                      <span className="inline-flex items-center text-sm font-medium hover-underline group-hover:translate-x-2 transition-transform text-white">
-                        {expandedProject === project.title ? 'Close' : 'View'} 
-                        {expandedProject === project.title ? <X size={16} className="ml-1" /> : <ArrowRight size={16} className="ml-1" />}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Expanded video player */}
-                {expandedProject === project.title && (
-                  <div className="mt-8 overflow-hidden rounded-lg bg-black/50 backdrop-blur-sm border border-gray-700">
-                    <video 
-                      controls 
-                      autoPlay
-                      className="w-full h-auto max-h-[70vh] object-contain"
-                      poster={project.imageSrc}
-                    >
-                      <source src={project.videoSrc} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
-                  </div>
-                )}
-              </div>
-            ))}
+          {/* Filter Toggle Group */}
+          <div className="overflow-x-auto pb-4 slide-in-right opacity-0 relative" style={{ animationDelay: '0.2s' }}>
+            {/* Animated selection indicator */}
+            <div 
+              className="absolute bottom-0 h-0.5 bg-primary transition-all duration-300 ease-out"
+              style={{ 
+                left: `${indicator.left}px`, 
+                width: `${indicator.width}px` 
+              }}
+            />
             
-            {/* View More Button */}
-            {hasMoreProjects && (
-              <div className="flex justify-center mt-16 slide-in-up opacity-0" ref={loadMoreRef} style={{ animationDelay: '0.5s' }}>
-                <Button 
-                  variant="outline"
-                  size="lg"
-                  onClick={loadMore}
-                  className="border-gray-700 text-white hover:bg-gray-900/50 transition-colors"
+            <ToggleGroup 
+              type="single" 
+              value={filter} 
+              onValueChange={(value) => value && setFilter(value)}
+              className="inline-flex flex-nowrap space-x-2"
+            >
+              {categories.map((category, idx) => (
+                <ToggleGroupItem 
+                  key={category} 
+                  value={category}
+                  className="whitespace-nowrap border-b-2 border-transparent data-[state=on]:border-primary rounded-none px-3 py-2 text-white"
+                  ref={el => toggleRefs.current[idx] = el}
+                  onFocus={() => {
+                    if (toggleRefs.current[idx]) {
+                      const toggle = toggleRefs.current[idx];
+                      if (toggle) {
+                        setIndicator({
+                          left: toggle.offsetLeft,
+                          width: toggle.offsetWidth,
+                        });
+                      }
+                    }
+                  }}
                 >
-                  View More Projects
-                  <ChevronDown size={16} className="ml-2" />
-                </Button>
-              </div>
-            )}
+                  {category}
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
           </div>
         </div>
-      </section>
-    </>
+        
+        <div className="mt-16 relative z-10">
+          {displayedProjects.map((project, index) => (
+            <div 
+              key={project.title}
+              className="mb-8 py-8 opacity-0 slide-in-left border-t border-gray-800 relative group"
+              style={{ animationDelay: `${0.1 * index}s` }}
+            >
+              <div 
+                className="block cursor-pointer"
+                onClick={() => toggleProjectExpansion(project.title)}
+              >
+                <div className="flex items-start justify-between relative z-10">
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-400 mb-2">{project.category}</p>
+                    <h3 className="text-4xl md:text-5xl lg:text-6xl font-medium mb-3 transition-transform group-hover:translate-x-4 text-white flex items-center">
+                      {project.title.startsWith("→") ? project.title : `→${project.title}`}
+                      <Play size={24} className="ml-4 opacity-60" />
+                    </h3>
+                    <p className="text-gray-300 mb-4 max-w-2xl">{project.description}</p>
+                  </div>
+                  <div className="mt-1 hidden md:block">
+                    <span className="inline-flex items-center text-sm font-medium hover-underline group-hover:translate-x-2 transition-transform text-white">
+                      {expandedProject === project.title ? 'Close' : 'View'} 
+                      {expandedProject === project.title ? <X size={16} className="ml-1" /> : <ArrowRight size={16} className="ml-1" />}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Expanded video player */}
+              {expandedProject === project.title && (
+                <div className="mt-8 overflow-hidden rounded-lg bg-black/50 backdrop-blur-sm border border-gray-700">
+                  <video 
+                    controls 
+                    autoPlay
+                    className="w-full h-auto max-h-[70vh] object-contain"
+                    poster={project.imageSrc}
+                  >
+                    <source src={project.videoSrc} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              )}
+            </div>
+          ))}
+          
+          {/* View More Button */}
+          {hasMoreProjects && (
+            <div className="flex justify-center mt-16 slide-in-up opacity-0" ref={loadMoreRef} style={{ animationDelay: '0.5s' }}>
+              <Button 
+                variant="outline"
+                size="lg"
+                onClick={loadMore}
+                className="border-gray-700 text-white hover:bg-gray-900/50 transition-colors"
+              >
+                View More Projects
+                <ChevronDown size={16} className="ml-2" />
+              </Button>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
   );
 };
 
