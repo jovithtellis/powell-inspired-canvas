@@ -1,13 +1,14 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, ChevronDown, ChevronUp, Play, X } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Button } from '@/components/ui/button';
+import YouTubeEmbed from './YouTubeEmbed';
 
 // Extended set of projects with additional metadata
 const allProjects = [
   { title: "NuSummit Brand Revamp", description: "Short film exploring the tactile nature of ceramic arts", category: "Brand videos", videoSrc: "https://qejganytvxciefrppvot.supabase.co/storage/v1/object/sign/bucket-1/Cloud-verse%20frame%20(1080%20x%201600%20px).mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV85MjVhNzBhZi1jZmZhLTQ1MzAtOTE1ZC0zODQzZWU2M2FkZTAiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJidWNrZXQtMS9DbG91ZC12ZXJzZSBmcmFtZSAoMTA4MCB4IDE2MDAgcHgpLm1wNCIsImlhdCI6MTc1MDc3ODU2NywiZXhwIjoyMDY2MTM4NTY3fQ.4e6IOWEJ2kqrVqsg9PMDrl1Oe0QaLp8pUA29GWmXr0U", imageSrc: "https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D" },
   { title: "Monument Valley", description: "Commercial spot for the award-winning mobile game", category: "SaaS explainer videos", videoSrc: "/videos/monument-valley.mp4", imageSrc: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1000" },
+  { title: "YouTube Demo", description: "Example of embedded YouTube video", category: "Brand videos", youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", imageSrc: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1000" },
   { title: "Moodnotes", description: "Motion graphics for mental health application", category: "Motion Graphics", videoSrc: "/videos/moodnotes.mp4", imageSrc: "https://images.unsplash.com/photo-1574610758891-5b809b6e6e2e?q=80&w=1000" },
   { title: "Iceland in Winter", description: "Documentary-style travel film featuring Iceland's landscapes", category: "Brand videos", videoSrc: "/videos/iceland.mp4", imageSrc: "https://images.unsplash.com/photo-1476820865390-c52aeebb9891?q=80&w=1000" },
   { title: "US Road Trip", description: "Travel series highlighting American landscapes", category: "Social Media videos", videoSrc: "/videos/roadtrip.mp4", imageSrc: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=1000" },
@@ -210,15 +211,23 @@ const FilteredWork = () => {
               {/* Expanded video player */}
               {expandedProject === project.title && (
                 <div className="mt-8 overflow-hidden rounded-lg bg-black/50 backdrop-blur-sm border border-gray-700">
-                  <video 
-                    controls 
-                    autoPlay
-                    className="w-full h-auto max-h-[70vh] object-contain"
-                    poster={project.imageSrc}
-                  >
-                    <source src={project.videoSrc} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
+                  {(project as any).youtubeUrl ? (
+                    <YouTubeEmbed 
+                      url={(project as any).youtubeUrl} 
+                      title={project.title}
+                      className="w-full"
+                    />
+                  ) : (
+                    <video 
+                      controls 
+                      autoPlay
+                      className="w-full h-auto max-h-[70vh] object-contain"
+                      poster={project.imageSrc}
+                    >
+                      <source src={project.videoSrc} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  )}
                 </div>
               )}
             </div>
