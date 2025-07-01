@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import AnimatedBackground from './AnimatedBackground';
 import { ChevronDown, Play } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -14,7 +14,30 @@ const featuredProjects = [
 
 const Hero = () => {
   const [activeProject, setActiveProject] = useState<string | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const isMobile = useIsMobile();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const workSection = document.getElementById('work');
+      const video = videoRef.current;
+      
+      if (workSection && video) {
+        const workSectionTop = workSection.offsetTop;
+        const scrollPosition = window.scrollY + window.innerHeight;
+        
+        // Pause video when work section comes into view
+        if (scrollPosition >= workSectionTop) {
+          video.pause();
+        } else {
+          video.play().catch(console.error);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const scrollToWork = () => {
     const workSection = document.getElementById('work');
@@ -28,9 +51,10 @@ const Hero = () => {
       <AnimatedBackground active={activeProject} projects={featuredProjects} />
       
       <section className={`${isMobile ? 'h-[100svh]' : 'h-screen'} relative`}>
-        {/* Single video background */}
+        {/* Looped showreel video background */}
         <div className="absolute inset-0 z-0">
           <video 
+            ref={videoRef}
             autoPlay 
             muted 
             loop 
@@ -53,7 +77,7 @@ const Hero = () => {
             <div className="text-center">
               <Play className="w-8 h-8 text-white/80 mx-auto mb-2 group-hover:scale-110 transition-transform" />
               <p className="text-white/80 text-sm font-medium">Director's Reel</p>
-              <p className="text-white/60 text-xs mt-1">Click to play</p>
+              <p className="text-white/60 text-xs mt-1">Playing</p>
             </div>
           </div>
         </div>

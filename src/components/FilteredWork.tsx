@@ -186,74 +186,86 @@ const FilteredWork = () => {
               className="mb-12 py-8 opacity-0 slide-in-left border-t border-gray-800 relative group"
               style={{ animationDelay: `${0.1 * index}s` }}
             >
-              {/* New Grid Layout */}
-              <div 
-                className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8 cursor-pointer"
-                onClick={() => toggleProjectExpansion(project.title)}
-              >
-                {/* Thumbnail Section - Takes 60% of space on desktop */}
-                <div className="lg:col-span-3 order-1 lg:order-1">
-                  <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg border border-gray-700 group-hover:shadow-xl transition-all duration-300">
-                    <img 
-                      src={project.imageSrc} 
-                      alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    
-                    {/* Enhanced Play Button Overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 transition-all duration-300 group-hover:bg-black/30">
-                      <div className="w-16 h-16 md:w-20 md:h-20 bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-black/80">
-                        <Play 
-                          size={24} 
-                          className="text-white ml-1 transition-all duration-300 group-hover:scale-110" 
-                          fill="white"
+              {/* Updated Layout for Inline Video */}
+              <div className="cursor-pointer">
+                {expandedProject === project.title ? (
+                  /* Expanded Video View */
+                  <div className="relative">
+                    <div className="aspect-video rounded-lg overflow-hidden shadow-lg border border-gray-700">
+                      {(project as any).youtubeUrl ? (
+                        <YouTubeEmbed 
+                          url={(project as any).youtubeUrl} 
+                          title={project.title}
+                          className="w-full h-full"
                         />
+                      ) : (
+                        <video 
+                          controls 
+                          autoPlay
+                          className="w-full h-full object-cover"
+                          poster={project.imageSrc}
+                        >
+                          <source src={project.videoSrc} type="video/mp4" />
+                          Your browser does not support the video tag.
+                        </video>
+                      )}
+                    </div>
+                    
+                    {/* Close button */}
+                    <button
+                      onClick={() => setExpandedProject(null)}
+                      className="absolute top-4 right-4 w-10 h-10 bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/80 transition-all duration-300 z-10"
+                    >
+                      <X size={20} className="text-white" />
+                    </button>
+                  </div>
+                ) : (
+                  /* Thumbnail View */
+                  <div 
+                    className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8"
+                    onClick={() => toggleProjectExpansion(project.title)}
+                  >
+                    {/* Thumbnail Section */}
+                    <div className="lg:col-span-3 order-1 lg:order-1">
+                      <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg border border-gray-700 group-hover:shadow-xl transition-all duration-300">
+                        <img 
+                          src={project.imageSrc} 
+                          alt={project.title}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        
+                        {/* Enhanced Play Button Overlay */}
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/20 transition-all duration-300 group-hover:bg-black/30">
+                          <div className="w-16 h-16 md:w-20 md:h-20 bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-black/80">
+                            <Play 
+                              size={24} 
+                              className="text-white ml-1 transition-all duration-300 group-hover:scale-110" 
+                              fill="white"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Text Content Section */}
+                    <div className="lg:col-span-2 flex flex-col justify-center order-2 lg:order-2">
+                      <p className="text-sm text-gray-400 mb-2">{project.category}</p>
+                      <h3 className="text-xl md:text-2xl lg:text-3xl font-medium mb-3 text-white">
+                        <span className="text-gray-500 mr-2">→</span>
+                        {project.title}
+                      </h3>
+                      <p className="text-gray-300 text-sm md:text-base leading-relaxed">{project.description}</p>
+                      
+                      {/* Mobile/Tablet expand indicator */}
+                      <div className="mt-4 lg:hidden">
+                        <span className="inline-flex items-center text-sm font-medium text-white/60">
+                          View <Play size={16} className="ml-1" />
+                        </span>
                       </div>
                     </div>
                   </div>
-                </div>
-
-                {/* Text Content Section - Takes 40% of space on desktop */}
-                <div className="lg:col-span-2 flex flex-col justify-center order-2 lg:order-2">
-                  <p className="text-sm text-gray-400 mb-2">{project.category}</p>
-                  <h3 className="text-xl md:text-2xl lg:text-3xl font-medium mb-3 text-white">
-                    <span className="text-gray-500 mr-2">→</span>
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-300 text-sm md:text-base leading-relaxed">{project.description}</p>
-                  
-                  {/* Mobile/Tablet expand indicator */}
-                  <div className="mt-4 lg:hidden">
-                    <span className="inline-flex items-center text-sm font-medium text-white/60">
-                      {expandedProject === project.title ? 'Close' : 'View'} 
-                      {expandedProject === project.title ? <X size={16} className="ml-1" /> : <Play size={16} className="ml-1" />}
-                    </span>
-                  </div>
-                </div>
+                )}
               </div>
-              
-              {/* Expanded video player */}
-              {expandedProject === project.title && (
-                <div className="mt-8 overflow-hidden rounded-lg bg-black/50 backdrop-blur-sm border border-gray-700">
-                  {(project as any).youtubeUrl ? (
-                    <YouTubeEmbed 
-                      url={(project as any).youtubeUrl} 
-                      title={project.title}
-                      className="w-full"
-                    />
-                  ) : (
-                    <video 
-                      controls 
-                      autoPlay
-                      className="w-full h-auto max-h-[70vh] object-contain"
-                      poster={project.imageSrc}
-                    >
-                      <source src={project.videoSrc} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
-                  )}
-                </div>
-              )}
             </div>
           ))}
           
