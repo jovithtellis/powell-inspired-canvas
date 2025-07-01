@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, ChevronDown, ChevronUp, Play, X } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
@@ -191,7 +192,7 @@ const FilteredWork = () => {
                 {expandedProject === project.title ? (
                   /* Expanded Video View */
                   <div className="relative">
-                    <div className="aspect-video rounded-lg overflow-hidden shadow-lg border border-gray-700">
+                    <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
                       {(project as any).youtubeUrl ? (
                         <YouTubeEmbed 
                           url={(project as any).youtubeUrl} 
