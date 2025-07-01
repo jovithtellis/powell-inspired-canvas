@@ -183,26 +183,50 @@ const FilteredWork = () => {
           {displayedProjects.map((project, index) => (
             <div 
               key={project.title}
-              className="mb-8 py-8 opacity-0 slide-in-left border-t border-gray-800 relative group"
+              className="mb-12 py-8 opacity-0 slide-in-left border-t border-gray-800 relative group"
               style={{ animationDelay: `${0.1 * index}s` }}
             >
+              {/* New Grid Layout */}
               <div 
-                className="block cursor-pointer"
+                className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8 cursor-pointer"
                 onClick={() => toggleProjectExpansion(project.title)}
               >
-                <div className="flex items-start justify-between relative z-10">
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-400 mb-2">{project.category}</p>
-                    <h3 className="text-4xl md:text-5xl lg:text-6xl font-medium mb-3 transition-transform group-hover:translate-x-4 text-white flex items-center">
-                      {project.title.startsWith("→") ? project.title : `→${project.title}`}
-                      <Play size={24} className="ml-4 opacity-60" />
-                    </h3>
-                    <p className="text-gray-300 mb-4 max-w-2xl">{project.description}</p>
+                {/* Thumbnail Section - Takes 60% of space on desktop */}
+                <div className="lg:col-span-3 order-1 lg:order-1">
+                  <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg border border-gray-700 group-hover:shadow-xl transition-all duration-300">
+                    <img 
+                      src={project.imageSrc} 
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    
+                    {/* Enhanced Play Button Overlay */}
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 transition-all duration-300 group-hover:bg-black/30">
+                      <div className="w-16 h-16 md:w-20 md:h-20 bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-black/80">
+                        <Play 
+                          size={24} 
+                          className="text-white ml-1 transition-all duration-300 group-hover:scale-110" 
+                          fill="white"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className="mt-1 hidden md:block">
-                    <span className="inline-flex items-center text-sm font-medium hover-underline group-hover:translate-x-2 transition-transform text-white">
+                </div>
+
+                {/* Text Content Section - Takes 40% of space on desktop */}
+                <div className="lg:col-span-2 flex flex-col justify-center order-2 lg:order-2">
+                  <p className="text-sm text-gray-400 mb-2">{project.category}</p>
+                  <h3 className="text-xl md:text-2xl lg:text-3xl font-medium mb-3 text-white">
+                    <span className="text-gray-500 mr-2">→</span>
+                    {project.title}
+                  </h3>
+                  <p className="text-gray-300 text-sm md:text-base leading-relaxed">{project.description}</p>
+                  
+                  {/* Mobile/Tablet expand indicator */}
+                  <div className="mt-4 lg:hidden">
+                    <span className="inline-flex items-center text-sm font-medium text-white/60">
                       {expandedProject === project.title ? 'Close' : 'View'} 
-                      {expandedProject === project.title ? <X size={16} className="ml-1" /> : <ArrowRight size={16} className="ml-1" />}
+                      {expandedProject === project.title ? <X size={16} className="ml-1" /> : <Play size={16} className="ml-1" />}
                     </span>
                   </div>
                 </div>
