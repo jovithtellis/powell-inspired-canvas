@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, ChevronDown, ChevronUp, Play, X } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
@@ -192,23 +191,25 @@ const FilteredWork = () => {
                 {expandedProject === project.title ? (
                   /* Expanded Video View */
                   <div className="relative">
-                    <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
+                    <div className="rounded-lg overflow-hidden shadow-lg">
                       {(project as any).youtubeUrl ? (
                         <YouTubeEmbed 
                           url={(project as any).youtubeUrl} 
                           title={project.title}
-                          className="w-full h-full"
+                          className="w-full"
                         />
                       ) : (
-                        <video 
-                          controls 
-                          autoPlay
-                          className="w-full h-full object-cover"
-                          poster={project.imageSrc}
-                        >
-                          <source src={project.videoSrc} type="video/mp4" />
-                          Your browser does not support the video tag.
-                        </video>
+                        <div className="aspect-video">
+                          <video 
+                            controls 
+                            autoPlay
+                            className="w-full h-full object-cover"
+                            poster={project.imageSrc}
+                          >
+                            <source src={project.videoSrc} type="video/mp4" />
+                            Your browser does not support the video tag.
+                          </video>
+                        </div>
                       )}
                     </div>
                     
