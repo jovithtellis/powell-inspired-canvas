@@ -29,11 +29,11 @@ const Contact = () => {
             
             <div className="mb-12">
               <p className="text-lg mb-2 font-medium text-white">Contact Info</p>
-              <a href="mailto:hello@example.com" className="hover-underline text-gray-300 block mb-1">
-                hello@example.com
+              <a href="jovithozzy@gmail.com" className="hover-underline text-gray-300 block mb-1">
+                jovithozzy@gmail.com
               </a>
-              <a href="tel:+11234567890" className="hover-underline text-gray-300">
-                +1 (123) 456-7890
+              <a href="tel:+919741808728" className="hover-underline text-gray-300">
+                +91-9741808728
               </a>
             </div>
             
@@ -43,7 +43,7 @@ const Contact = () => {
                 <a href="#" className="text-gray-300 hover:text-white transition-colors">
                   <Instagram size={24} />
                 </a>
-                <a href="#" className="text-gray-300 hover:text-white transition-colors">
+                <a href="https://www.linkedin.com/in/jovith-j-tellis/" className="text-gray-300 hover:text-white transition-colors">
                   <Linkedin size={24} />
                 </a>
                 <a href="#" className="text-gray-300 hover:text-white transition-colors">
