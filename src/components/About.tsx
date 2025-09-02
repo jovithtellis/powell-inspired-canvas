@@ -18,18 +18,24 @@ const About = () => {
             <h2 className="text-3xl md:text-4xl font-medium text-white">About</h2>
             <div className="space-y-4 text-gray-300 leading-relaxed">
               <p>
-                I'm a creative director and filmmaker with over 8 years of experience 
-                crafting visual stories that resonate. My work spans across brand films, 
-                music videos, and commercial content for clients worldwide.
+                I’m a Creative Director, Motion Graphics Artist, and Filmmaker who thrives on 
+                bringing stories to life through design, movement, and cinematic vision. 
+                My work bridges artistry with strategy creating visuals that don’t just look striking, 
+                but also communicate with clarity and connect meaningfully with audiences.
               </p>
               <p>
-                Based between London and Berlin, I collaborate with agencies, startups, 
-                and established brands to create compelling visual narratives that drive 
-                engagement and build lasting connections.
+                Over the years, I’ve led end-to-end creative processes across film, motion, and brand identity.
+                I’ve partnered with startups, agencies, and established brands to deliver impactful projects 
+                that cut through the noise and leave a lasting impression.
               </p>
               <p>
-                My approach combines technical precision with creative intuition, 
-                ensuring every project delivers both artistic excellence and commercial success.
+                I also believe that creativity should evolve alongside technology. 
+                By integrating AI and emerging tools into my workflow, 
+                I’m able to streamline production, accelerate timelines, and unlock new forms of storytelling.
+              </p>
+              <p>
+              At the heart of my work is a simple goal: 
+              to transform ideas into experiences that inspire, resonate, and move people. 
               </p>
             </div>
             
@@ -37,11 +43,11 @@ const About = () => {
             <div className="space-y-3 pt-6">
               <div className="flex items-center space-x-3 text-gray-400">
                 <MapPin size={18} />
-                <span>London / Berlin</span>
+                <span>Bengaluru, India</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-400">
                 <Mail size={18} />
-                <span>hello@jovithtellis.com</span>
+                <span>jovithozzy@gmail.com</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-400">
                 <Calendar size={18} />
